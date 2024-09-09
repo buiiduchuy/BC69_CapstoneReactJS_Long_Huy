@@ -4,3 +4,4 @@ export * from "./Register";
 export * from "./FilmDetail";
 export * from "./Contact";
 export * from "./Category";
+export * from './AboutUs'
