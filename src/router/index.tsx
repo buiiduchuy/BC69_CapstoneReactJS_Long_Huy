@@ -1,9 +1,7 @@
 import { useRoutes } from "react-router-dom";
 import { PATH } from "../constants";
-import { Contact, FilmDetail, Home, Login, Register } from "../pages";
+import { Contact, FilmDetail, Home, Login, Register, AboutUs, Category } from "../pages";
 import { AuthLayout, MainLayout } from "../Components";
-import { AboutUs } from "../pages/AboutUs";
-import { Category } from "../pages/Category";
 
 export const routers = () =>
   useRoutes([
@@ -17,7 +15,7 @@ export const routers = () =>
         {
           path: PATH.login,
           element: <Login />,
-        },
+        }
       ],
     },
     {
@@ -38,10 +36,6 @@ export const routers = () =>
         {
           path: PATH.category,
           element: <Category />,
-        },
-        {
-          path: PATH.contact,
-          element: <Contact />,
         },
       ],
     },

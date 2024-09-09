@@ -17,6 +17,10 @@ export const FilmDetailTemplate = () => {
   const { data } = useFilmDetailById({ id });
 
   const { data: Showtimes } = useGetShowtimeById({ id });
+  // console.log("Showtimes: ", Showtimes);
+
+  // const navigate = useNavigate();
+  // back về trang trước navigate(-1)
 
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
