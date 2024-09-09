@@ -32,12 +32,16 @@ export const routers = () =>
           element: <FilmDetail />,
         },
         {
-          path: PATH.contact,
-          element: <Contact />,
+          path: PATH.aboutUs,
+          element: <AboutUs />,
         },
         {
           path: PATH.category,
           element: <Category />,
+        },
+        {
+          path: PATH.contact,
+          element: <Contact />,
         },
       ],
     },
