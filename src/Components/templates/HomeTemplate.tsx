@@ -9,6 +9,7 @@ import { PATH } from "../../constants";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { v4 as uuidv4 } from "uuid";
 
 export const HomeTemplate = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export const HomeTemplate = () => {
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
         },
@@ -96,7 +97,7 @@ export const HomeTemplate = () => {
         <div className="flex justify-center sm:p-5" key={phim.maPhim}>
           <Card
             hoverable
-            style={{ maxWidth: 350, width: "100%", textAlign: "left" }}
+            style={{ width: "100%", textAlign: "left" }}
             cover={
               <img
                 alt="example"
@@ -104,7 +105,7 @@ export const HomeTemplate = () => {
                 className="aspect-[3/5] !rounded-[10px]"
               />
             }
-            className="mb-[30px] bg-transparent border-none"
+            className="mb-[30px] bg-transparent border-none sm:max-w-full max-w-96 mx-auto"
             styles={{ body: { padding: "10px 0" } }}>
             <Meta title={<h3 className="text-white py-2">{phim.tenPhim}</h3>} />
             <Button
@@ -129,7 +130,7 @@ export const HomeTemplate = () => {
       <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-40 container">
         {[...Array(12)].map(() => {
           return (
-            <div>
+            <div key={uuidv4()}>
               <Skeleton.Input
                 active
                 className="!h-[350px] !w-full bg-gray-950"
@@ -146,7 +147,7 @@ export const HomeTemplate = () => {
   return (
     <div className="container m-auto xl:py-[90px] md:py-[50px] px-4">
       <div className="mb-24">
-        <p className="font-500 text-[30px] mb-30 text-white uppercase">
+        <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
           Phim đang chiếu
         </p>
         <Slider {...settings} className="xl:-mx-5">
@@ -163,7 +164,7 @@ export const HomeTemplate = () => {
       </div>
 
       <div>
-        <p className="font-500 text-[30px] mb-30 text-white uppercase">
+        <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
           Phim sắp chiếu
         </p>
         <Slider {...settings}>

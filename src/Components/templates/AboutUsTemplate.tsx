@@ -7,7 +7,7 @@ import img6 from "../../assets/imgs/doitac/img6.png";
 
 export const AboutUsTemplate = () => {
   return (
-    <div className="container m-auto py-[90px] px-4">
+    <div className="container m-auto md:py-[90px] py-8 px-4">
       <h2 className="text-white text-[35px] font-500 mb-9 after:contents:'' after:block after:w-9 after:h-[3px] after:bg-orange-300">
         Về chúng tôi
       </h2>
@@ -30,7 +30,7 @@ export const AboutUsTemplate = () => {
       <ul className="flex flex-wrap text-white mb-24">
         <li className="md:w-1/2 lg:ps-24 md:ps-16 lg:pe-11 md:pe-5 relative mb-12">
           <i className="fa-solid fa-film text-white lg:text-[60px] md:text-[40px] text-[30px] absolute sm:-1top-1 left-0"></i>
-          <h3 className="text-[20px] ps-11 mb-2 text-orange-300 font-500">
+          <h3 className="text-[20px] md:ps-0 ps-11 mb-2 text-orange-300 font-500">
             Dữ liệu phim lớn
           </h3>
           <p className="">
@@ -41,7 +41,7 @@ export const AboutUsTemplate = () => {
         </li>
         <li className="md:w-1/2 lg:ps-24 md:ps-16 lg:pe-11 md:pe-5 relative mb-12">
           <i className="fa-solid fa-ticket text-white lg:text-[60px] md:text-[40px] text-[30px] absolute sm:-1top-1 left-0"></i>
-          <h3 className="text-[20px] ps-11 mb-2 text-orange-300 font-500">
+          <h3 className="text-[20px] md:ps-0 ps-11 mb-2 text-orange-300 font-500">
             Truy cập sớm vào các mục mới
           </h3>
           <p className="">
@@ -53,7 +53,7 @@ export const AboutUsTemplate = () => {
         </li>
         <li className="md:w-1/2 lg:ps-24 md:ps-16 lg:pe-11 md:pe-5 relative mb-12">
           <i className="fa-brands fa-chromecast text-white lg:text-[60px] md:text-[40px] text-[30px] absolute sm:-1top-1 left-0"></i>
-          <h3 className="text-[20px] ps-11 mb-2 text-orange-300 font-500">
+          <h3 className="text-[20px] md:ps-0 ps-11 mb-2 text-orange-300 font-500">
             Airplay
           </h3>
           <p className="">
@@ -65,7 +65,7 @@ export const AboutUsTemplate = () => {
         </li>
         <li className="md:w-1/2 lg:ps-24 md:ps-16 lg:pe-11 md:pe-5 relative mb-12">
           <i className="fa-solid fa-language text-white lg:text-[60px] md:text-[40px] text-[30px] absolute sm:-1top-1 left-0"></i>
-          <h3 className="text-[20px] ps-11 mb-2 text-orange-300 font-500">
+          <h3 className="text-[20px] md:ps-0 ps-11 mb-2 text-orange-300 font-500">
             Phụ đề đa ngôn ngữ
           </h3>
           <p className="">
@@ -80,23 +80,47 @@ export const AboutUsTemplate = () => {
         Đối tác của chúng tôi
       </h2>
       <ul className="flex flex-wrap">
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img1} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img1}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img2} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img2}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img3} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img3}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img4} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img4}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img5} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img5}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
-        <li className="lg:w-1/6 md:w-1/3 w-1/2">
-          <img src={img6} alt="img" className="opacity-60" />
+        <li className="lg:w-1/6 md:w-1/3 w-1/2 cursor-pointer">
+          <img
+            src={img6}
+            alt="img"
+            className="opacity-60 hover:opacity-90 transition-all"
+          />
         </li>
       </ul>
     </div>

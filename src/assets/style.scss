@@ -11,4 +11,17 @@ nav {
       color: #fb923c;
     }
   }
+  .menu {
+    overflow: hidden;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: all 0.3s ease;
+
+    @media screen and (min-width: 1024px) {
+      transform: scaleY(1);
+    }
+    &.isShow {
+      transform: scaleY(1);
+    }
+  }
 }

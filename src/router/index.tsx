@@ -3,6 +3,7 @@ import { PATH } from "../constants";
 import { Contact, FilmDetail, Home, Login, Register } from "../pages";
 import { AuthLayout, MainLayout } from "../Components";
 import { AboutUs } from "../pages/AboutUs";
+import { Category } from "../pages/Category";
 
 export const routers = () =>
   useRoutes([
@@ -35,8 +36,8 @@ export const routers = () =>
           element: <Contact />,
         },
         {
-          path: PATH.aboutUs,
-          element: <AboutUs />,
+          path: PATH.category,
+          element: <Category />,
         },
       ],
     },

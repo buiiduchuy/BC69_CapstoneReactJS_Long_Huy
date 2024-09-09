@@ -2,8 +2,10 @@ import { Avatar, Button, Divider, Popover } from "antd";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { useAppDispatch } from "../../store";
 import { quanLyNguoiDungActions } from "../../store/quanLyNguoiDung";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { PATH } from "../../constants";
+import { useState } from "react";
+import cn from "classnames";
 
 export const Header = () => {
   const { user } = useQuanLyNguoiDungSelector();
@@ -13,9 +15,11 @@ export const Header = () => {
 
   const navigate = useNavigate();
 
+  const [isshowMenu, setIsShowMenu] = useState(false);
+
   return (
     <nav className="bg-[#1a191f] fixed w-full z-20 top-0 start-0 border-b border-gray-800">
-      <div className="container m-auto flex flex-wrap items-center justify-between mx-auto py-[25px] px-4">
+      <div className="container m-auto flex flex-wrap items-center justify-between mx-auto md:py-[25px] py-4 px-4 relative">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             <svg
@@ -35,136 +39,151 @@ export const Header = () => {
             </svg>
           </span>
         </a>
-        <div className="flex md:order-3 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          {user ? (
-            <div className="flex items-center gap-10">
-              <p>{user.hoTen}</p>
-              <Popover
-                content={
-                  <div className="flex flex-col p-[12px] gap-10">
-                    <Button type="text">Thông tin tài khoản</Button>
-                    <div>
-                      <Divider />
-                    </div>
-                    <Button
-                      className="w-full"
-                      danger
-                      onClick={() => dispatch(quanLyNguoiDungActions.logOut())}>
-                      Đăng xuất
-                    </Button>
-                  </div>
-                }>
-                <Avatar
-                  className="bg-[#87d068]"
-                  icon={<i className="fa-regular fa-user"></i>}
-                />
-              </Popover>
-            </div>
-          ) : (
-            <div>
-              <Button
-                type="text"
-                onClick={() => navigate(PATH.login)}
-                className="!text-white rounded-md border-2 border-orange-300 hover:!bg-orange-300"
-                size="large">
-                Đăng nhập
-              </Button>
-              <Button
-                type="text"
-                onClick={() => navigate(PATH.register)}
-                className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
-                size="large">
-                Đăng ký
-              </Button>
-            </div>
-          )}
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
-            aria-expanded="false">
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14">
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
-        </div>
         <div
-          className=" flex-1 justify-center w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky">
-          <ul className="flex flex-col p-4:p-0 mt-4 font-medium rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0">
-            <li>
-              <NavLink
-                to="/"
-                className="block py-2 px-3 text-white hover:text-orange-300 md:p-0"
-                aria-current="page">
-                Trang chủ
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="vechungtoi"
-                className="block py-2 px-3 md:p-0 text-white hover:text-orange-300">
-                Về chúng tôi
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="danhmuc"
-                className="block py-2 px-3 md:p-0 text-white hover:text-orange-300">
-                Danh mục
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="lienhe"
-                className="block py-2 px-3 md:p-0 text-white hover:text-orange-300">
-                Liên hệ
-              </NavLink>
-            </li>
-          </ul>
-        </div>
-        <form className="max-w-md md:order-2 me-5">
-          <div className="relative">
-            <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
-              <svg
-                className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 20">
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </div>
-            <input
-              type="search"
-              id="default-search"
-              className="block w-full p-2 pe-6 text-sm text-white border-2 border-gray-800 rounded-lg bg-gray-800 focus:border-orange-300 outline-none"
-              placeholder="Tìm kiếm..."
-            />
-            <button
-              type="submit"
-              className="text-white absolute end-2 bottom-4 w-6 h-6"></button>
+          className={cn(
+            "menu flex items-center flex-1 md:flex-row flex-col lg:relative absolute w-full top-full left-0 px-3 lg:px-0 lg:py-0 py-5 lg:bg-transparent bg-[#1f1e24]",
+            {
+              isShow: isshowMenu,
+            }
+          )}>
+          <div
+            className="flex-1 items-center justify-center w-full md:flex md:w-auto mb-5 md:mb-0"
+            id="navbar-sticky">
+            <ul className="flex flex-col p-4:p-0 font-medium rounded-lg lg:space-x-8 md:space-x-3 rtl:space-x-reverse md:flex-row lg:text-[16px] text-[14px]">
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="/"
+                  className="block py-2 px-3 text-white hover:text-orange-300 md:p-0 text-center">
+                  Trang chủ
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="vechungtoi"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center">
+                  Về chúng tôi
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="danhmuc"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center">
+                  Danh mục
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  onClick={() => setIsShowMenu(false)}
+                  to="lienhe"
+                  className="block py-2 px-3 md:p-0 text-white hover:text-orange-300 text-center">
+                  Liên hệ
+                </NavLink>
+              </li>
+            </ul>
           </div>
-        </form>
+          <form className="md:max-w-md md:me-5 md:mb-0 mb-5 md:w-auto w-full">
+            <div className="relative">
+              <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                <svg
+                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 20 20">
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                  />
+                </svg>
+              </div>
+              <input
+                type="search"
+                id="default-search"
+                className="block w-full max- p-2 pe-6 text-sm text-white border-2 border-gray-800 rounded-lg bg-gray-800 focus:border-orange-300 outline-none"
+                placeholder="Tìm kiếm..."
+              />
+              <button
+                type="submit"
+                className="text-white absolute end-2 bottom-4 w-6 h-6"></button>
+            </div>
+          </form>
+          <div className="flex space-x-3 rtl:space-x-reverse">
+            {user ? (
+              <div className="flex items-center gap-10">
+                <p>{user.hoTen}</p>
+                <Popover
+                  content={
+                    <div className="flex flex-col p-[12px] gap-10">
+                      <Button type="text">Thông tin tài khoản</Button>
+                      <div>
+                        <Divider />
+                      </div>
+                      <Button
+                        className="w-full"
+                        danger
+                        onClick={() =>
+                          dispatch(quanLyNguoiDungActions.logOut())
+                        }>
+                        Đăng xuất
+                      </Button>
+                    </div>
+                  }>
+                  <Avatar
+                    className="bg-[#87d068]"
+                    icon={<i className="fa-regular fa-user"></i>}
+                  />
+                </Popover>
+              </div>
+            ) : (
+              <>
+                <Button
+                  type="text"
+                  onClick={() => navigate(PATH.login)}
+                  className="!text-white rounded-md border-2 border-orange-300 hover:!bg-orange-300 text-[12px] lg:text-[16px]"
+                  size="large">
+                  Đăng nhập
+                </Button>
+                <Button
+                  type="text"
+                  onClick={() => navigate(PATH.register)}
+                  className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300 text-[12px] lg:text-[16px]"
+                  size="large">
+                  Đăng ký
+                </Button>
+              </>
+            )}
+          </div>
+        </div>
+        <button
+          data-collapse-toggle="navbar-sticky"
+          type="button"
+          className="inline-flex items-center p-2 w-9 h-9 justify-center text-sm text-white rounded-lg lg:hidden border-white border"
+          aria-controls="navbar-sticky"
+          aria-expanded="false"
+          onClick={() => setIsShowMenu(!isshowMenu)}>
+          <span className="sr-only">Open main menu</span>
+          <svg
+            className="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14">
+            <path
+              color="#F9AB00"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M1 1h15M1 7h15M1 13h15"
+            />
+          </svg>
+        </button>
       </div>
     </nav>
   );

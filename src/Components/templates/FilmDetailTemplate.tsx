@@ -93,7 +93,7 @@ export const FilmDetailTemplate = () => {
               children: (
                 <div>
                   <Collapse
-                    className="py-2"
+                    className="pt-2"
                     items={item?.cumRapChieu.map((cumRap) => ({
                       key: cumRap.maCumRap,
                       label: (

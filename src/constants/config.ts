@@ -4,4 +4,5 @@ export const PATH = {
   phimDetail: "/phim/:id",
   contact: "/lienhe",
   aboutUs: "/vechungtoi",
+  category: "/danhmuc",
 };

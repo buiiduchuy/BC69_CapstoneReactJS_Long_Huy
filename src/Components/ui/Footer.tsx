@@ -1,12 +1,11 @@
-// import { UpCircleOutlined } from "@ant-design/icons";
 import { BackTop } from "antd";
 
 export const Footer = () => {
   return (
     <footer className="footer border-t border-gray-800">
       <div className="container">
-        <div className="flex justify-between p-9">
-          <a href="/" className="footer__logo">
+        <div className="flex md:flex-row flex-col items-center justify-between p-9">
+          <a href="/" className="footer__logo md:mb-0 mb-5">
             <svg
               width="126"
               height="23"
@@ -23,7 +22,7 @@ export const Footer = () => {
               />
             </svg>
           </a>
-          <span className="footer__copyright text-white flex-1 text-center">
+          <span className="footer__copyright text-white flex-1 text-center text-[14px] md:pe-[70px] pe-5">
             © HOTFLIX, 2019—2024 - Create by{" "}
             <a
               href="https://themeforest.net/user/dmitryvolkov/portfolio"

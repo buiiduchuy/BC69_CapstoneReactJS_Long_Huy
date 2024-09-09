@@ -7,7 +7,7 @@ import { Button } from "antd";
 
 export const ContactTemplate = () => {
   return (
-    <div className="container m-auto py-[90px] grid sm:grid-cols-2 gap-9 px-4">
+    <div className="container m-auto md:py-[90px] py-8 grid sm:grid-cols-2 gap-9 px-4">
       <div>
         <h2 className="text-white text-[35px] font-500 mb-9 after:contents:'' after:block after:w-9 after:h-[3px] after:bg-orange-300">
           Liên hệ
