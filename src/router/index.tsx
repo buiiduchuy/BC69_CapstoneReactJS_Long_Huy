@@ -15,7 +15,7 @@ export const routers = () =>
         {
           path: PATH.login,
           element: <Login />,
-        }
+        },
       ],
     },
     {
@@ -36,6 +36,10 @@ export const routers = () =>
         {
           path: PATH.category,
           element: <Category />,
+        },
+        {
+          path: PATH.contact,
+          element: <Contact />,
         },
       ],
     },
