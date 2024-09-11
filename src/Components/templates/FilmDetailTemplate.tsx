@@ -1,17 +1,20 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 import { useFilmDetailById, useGetShowtimeById } from "../hooks/api";
 import { Button, Collapse, Modal, Tabs } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { quanLyDatVe } from "../../services";
 import { objectToQueryString } from "../../utils";
-import cn from "classnames";
-import { styled } from "styled-components";
-import { LoaiGhe } from "../../@types";
 import "../../assets/style.scss";
+import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
+import { GheComponent } from "../ui";
 
 export const FilmDetailTemplate = () => {
+  const { user } = useQuanLyNguoiDungSelector();
+  if (!user) {
+    return <Navigate to="/login" />;
+  }
   const { id = "" } = useParams();
 
   const { data } = useFilmDetailById({ id });
@@ -145,14 +148,7 @@ export const FilmDetailTemplate = () => {
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
           <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-20">
             {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
-              <Ghe
-                className={cn("cursor-pointer", {
-                  daDat: ghe.daDat,
-                  gheThuong: ghe.loaiGhe === LoaiGhe.THUONG,
-                  gheVip: ghe.loaiGhe === LoaiGhe.VIP,
-                })}>
-                {ghe.tenGhe}
-              </Ghe>
+              <GheComponent ghe={ghe} />
             ))}
           </div>
           <ul className="flex mt-12 mb-5 space-x-4 justify-center">
@@ -164,27 +160,13 @@ export const FilmDetailTemplate = () => {
               <span className="inline-block me-2 w-9 h-9 rounded-md bg-black"></span>
               Ghế Thường
             </li>
+            <li className="flex items-center">
+              <span className="inline-block me-2 w-9 h-9 rounded-md bg-orange-400"></span>
+              Ghế Đang Chọn
+            </li>
           </ul>
         </Modal>
       </div>
     </>
   );
 };
-
-// style
-const Ghe = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: #ef4444;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  border-radius: 6px;
-  &.gheThuong {
-    background: #111;
-  }
-  &.gheVip {
-    background: green;
-  }
-`;

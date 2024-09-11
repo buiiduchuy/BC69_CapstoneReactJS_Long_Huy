@@ -8,7 +8,7 @@ import { LoginAPIResponse } from "../../@types";
 const { dangKy } = quanLyNguoiDungThunks;
 
 type initialState = {
-  isLoadingRegisterisLoading: boolean;
+  isLoadingRegister: boolean;
   userRegister?: RegisterSchemaType;
   user: LoginAPIResponse | null;
 };
@@ -28,7 +28,6 @@ export const {
 
   // xử lý action đồng bộ
   reducers: {
-    setAbc: () => {},
     setUser: (state, { payload }) => {
       state.user = payload;
 
