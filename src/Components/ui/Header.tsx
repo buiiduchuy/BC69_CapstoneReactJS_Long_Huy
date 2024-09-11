@@ -9,7 +9,6 @@ import cn from "classnames";
 
 export const Header = () => {
   const { user } = useQuanLyNguoiDungSelector();
-  console.log("user: ", user);
 
   const dispatch = useAppDispatch();
 
@@ -116,7 +115,7 @@ export const Header = () => {
           <div className="flex space-x-3 rtl:space-x-reverse">
             {user ? (
               <div className="flex items-center gap-10">
-                <p>{user.hoTen}</p>
+                <p className="text-white">{user.hoTen}</p>
                 <Popover
                   content={
                     <div className="flex flex-col p-[12px] gap-10">
