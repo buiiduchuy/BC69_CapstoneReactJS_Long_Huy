@@ -62,7 +62,7 @@ export const FilmDetailTemplate = () => {
         });
         setTimeout(() => {
           <Navigate to="/" />;
-        }, 2100);
+        }, 200);
       }, 200);
     }, 2000);
   };
