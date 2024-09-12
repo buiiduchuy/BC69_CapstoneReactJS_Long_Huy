@@ -9,9 +9,11 @@ import { objectToQueryString } from "../../utils";
 import "../../assets/style.scss";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { GheComponent } from "../ui";
+import { Bounce, toast } from "react-toastify";
 
 export const FilmDetailTemplate = () => {
-  const { user } = useQuanLyNguoiDungSelector();
+  const { user, listSeat } = useQuanLyNguoiDungSelector();
+
   if (!user) {
     return <Navigate to="/login" />;
   }
@@ -36,6 +38,34 @@ export const FilmDetailTemplate = () => {
   });
 
   let loading = !!danhSachPhongVe;
+
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+  let tong = 0;
+
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const handleComplete = () => {
+    setConfirmLoading(true);
+    setTimeout(() => {
+      setIsComplete(false);
+      setConfirmLoading(false);
+      setTimeout(() => {
+        toast("Đặt vé thành công !", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        setTimeout(() => {
+          <Navigate to="/" />;
+        }, 2100);
+      }, 200);
+    }, 2000);
+  };
 
   return (
     <>
@@ -142,7 +172,10 @@ export const FilmDetailTemplate = () => {
           }}
           onOk={() => {
             setIsOpenModal(false);
+            setIsComplete(true);
           }}
+          okText="Đặt vé"
+          cancelText="Huỷ"
           width={800}
           loading={!loading}>
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
@@ -165,6 +198,51 @@ export const FilmDetailTemplate = () => {
               Ghế Đang Chọn
             </li>
           </ul>
+        </Modal>
+        <Modal
+          open={isComplete}
+          onCancel={() => {
+            setIsComplete(false);
+          }}
+          onOk={handleComplete}
+          confirmLoading={confirmLoading}
+          okText="Hoàn thành"
+          cancelButtonProps={{ style: { display: "none" } }}>
+          <h2 className="text-center text-[30px] font-semibold mb-9">
+            Thông tin vé đã đặt
+          </h2>
+          <div className="flex mb-5 text-[20px]">
+            <span className="me-2">
+              <strong>Tên phim : </strong>
+            </span>
+            <h3>{data?.tenPhim}</h3>
+          </div>
+          <table className="w-full border-collapse border">
+            <thead>
+              <th className="border">
+                <strong>Tên ghế</strong>
+              </th>
+              <th className="border">
+                <strong>Giá tiền</strong>
+              </th>
+            </thead>
+            <tbody>
+              {listSeat.map((item) => {
+                tong += Number(item.giaVe);
+                return (
+                  <tr className="border">
+                    <td className="border text-center p-2">{item?.tenGhe}</td>
+                    <td className="border text-center p-2">{item?.giaVe}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tr>
+              <td className="text-center">
+                <strong>Tổng tiền : {tong}</strong>
+              </td>
+            </tr>
+          </table>
         </Modal>
       </div>
     </>

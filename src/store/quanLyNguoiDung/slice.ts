@@ -3,7 +3,7 @@ import { quanLyNguoiDungThunks } from "./thunk";
 import { RegisterSchemaType } from "../../schemas";
 import { storage } from "../../utils";
 import { localStorageKey } from "../../constants";
-import { LoginAPIResponse } from "../../@types";
+import { DanhSachGhe, LoginAPIResponse } from "../../@types";
 
 const { dangKy } = quanLyNguoiDungThunks;
 
@@ -11,12 +11,14 @@ type initialState = {
   isLoadingRegister: boolean;
   userRegister?: RegisterSchemaType;
   user: LoginAPIResponse | null;
+  listSeat: [DanhSachGhe];
 };
 
 const initialState = {
   isLoadingRegister: false,
   userRegister: undefined,
   user: storage(localStorageKey.USER),
+  listSeat: [],
 };
 
 export const {
@@ -40,6 +42,16 @@ export const {
 
       // xoá thông tin use ở localStorage
       localStorage.removeItem(localStorageKey.USER);
+    },
+    setListSeat: (state, { payload }) => {
+      let index = state.listSeat.findIndex(
+        (item) => item?.maGhe === payload.maGhe
+      );
+      if (index === -1) {
+        state.listSeat.push(payload);
+      } else {
+        state.listSeat.splice(index, 1);
+      }
     },
   },
 
