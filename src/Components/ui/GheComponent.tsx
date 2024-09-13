@@ -1,11 +1,18 @@
 import cn from "classnames";
 import { styled } from "styled-components";
-import { LoaiGhe } from "../../@types";
+import { LoaiGhe, DanhSachGhe } from "../../@types";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { quanLyDatVeActions } from "../../store/quanLyDatVe";
 
-export const GheComponent = (props: any) => {
+type Props = {
+  ghe: DanhSachGhe;
+};
+
+export const GheComponent = (props: Props) => {
   const { ghe } = props;
-  console.log("ghe: ", ghe);
+
+  const dispatch = useDispatch();
 
   const [isActive, setIsActive] = useState<boolean>(false);
   return (
@@ -16,7 +23,11 @@ export const GheComponent = (props: any) => {
         gheVip: ghe.loaiGhe === LoaiGhe.VIP,
         active: isActive,
       })}
-      onClick={() => setIsActive(!isActive)}>
+      onClick={() => {
+        setIsActive(!isActive);
+        dispatch(quanLyDatVeActions.setListSeat(ghe));
+      }}
+    >
       {ghe.tenGhe}
     </Ghe>
   );
