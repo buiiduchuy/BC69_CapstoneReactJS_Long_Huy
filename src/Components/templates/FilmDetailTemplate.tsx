@@ -44,6 +44,8 @@ export const FilmDetailTemplate = () => {
 
   let loading = !!danhSachPhongVe;
 
+  const [isComplete, setIsComplete] = useState(false);
+
   return (
     <>
       <div className="container xl:p-[50px] py-[50px] px-4">
