@@ -38,7 +38,7 @@ export const FilmDetailTemplate = () => {
 
   let loading = !!danhSachPhongVe;
 
-  const [active, setActive] = useState<[]>([]);
+  const [active, setActive] = useState([]);
 
   return (
     <>
