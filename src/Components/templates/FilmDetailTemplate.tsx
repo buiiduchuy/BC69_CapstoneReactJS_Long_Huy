@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useFilmDetailById, useGetShowtimeById } from "../hooks/api";
 import { Button, Collapse, Modal, Tabs } from "antd";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { quanLyDatVe } from "../../services";
 import { objectToQueryString } from "../../utils";
@@ -37,6 +37,8 @@ export const FilmDetailTemplate = () => {
   });
 
   let loading = !!danhSachPhongVe;
+
+  const [active, setActive] = useState<[]>([]);
 
   return (
     <>
@@ -111,11 +113,13 @@ export const FilmDetailTemplate = () => {
                         <div className="flex gap-10 flex-wrap">
                           {cumRap.lichChieuPhim.map((lichChieu) => (
                             <Button
+                              key={lichChieu.maLichChieu}
                               type="primary"
                               onClick={() => {
                                 setIsOpenModal(true);
                                 setMaLichChieu(lichChieu.maLichChieu);
-                              }}>
+                              }}
+                            >
                               {dayjs(lichChieu.ngayChieuGioChieu).format(
                                 "DD-MM-YYYY , HH:mm"
                               )}{" "}
@@ -131,7 +135,8 @@ export const FilmDetailTemplate = () => {
                   />
                 </div>
               ),
-            }))}></Tabs>
+            }))}
+          ></Tabs>
         </div>
 
         {/* modal đặt vé */}
@@ -145,19 +150,39 @@ export const FilmDetailTemplate = () => {
             setIsOpenModal(false);
           }}
           width={800}
-          loading={!loading}>
+          loading={!loading}
+        >
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
           <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-20">
-            {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
-              <Ghe
-                className={cn("cursor-pointer", {
-                  daDat: ghe.daDat,
-                  gheThuong: ghe.loaiGhe === LoaiGhe.THUONG,
-                  gheVip: ghe.loaiGhe === LoaiGhe.VIP,
-                })}>
-                {ghe.tenGhe}
-              </Ghe>
-            ))}
+            {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => {
+              return (
+                <Ghe
+                  key={ghe.maGhe}
+                  className={cn("cursor-pointer", {
+                    daDat: ghe.daDat,
+                    gheThuong: ghe.loaiGhe === LoaiGhe.THUONG,
+                    gheVip: ghe.loaiGhe === LoaiGhe.VIP,
+                    active:
+                      active.findIndex((index) => index === ghe.maGhe) !== -1,
+                  })}
+                  onClick={() => {
+                    if (
+                      active.findIndex((index) => index === ghe.maGhe) === -1
+                    ) {
+                      setActive([...active, ghe.maGhe]);
+                    } else {
+                      let arrActive = [...active];
+                      arrActive.pop(
+                        active.findIndex((index) => index === ghe.maGhe)
+                      );
+                      setActive(arrActive);
+                    }
+                  }}
+                >
+                  {ghe.tenGhe}
+                </Ghe>
+              );
+            })}
           </div>
           <ul className="flex mt-12 mb-5 space-x-4 justify-center">
             <li className="flex items-center">
@@ -190,5 +215,13 @@ const Ghe = styled.div`
   }
   &.gheVip {
     background: green;
+  }
+  &.active {
+    background: yellow;
+    color: red;
+  }
+  &.daDat {
+    background: red;
+    pointer-events: none;
   }
 `;
