@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 import { LoaiGhe, DanhSachGhe } from "../../@types";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { quanLyNguoiDungActions } from "../../store/quanLyNguoiDung";
+import { quanLyDatVeActions } from "../../store/quanLyDatVe";
 
 type Props = {
   ghe: DanhSachGhe;
@@ -25,8 +25,9 @@ export const GheComponent = (props: Props) => {
       })}
       onClick={() => {
         setIsActive(!isActive);
-        dispatch(quanLyNguoiDungActions.setListSeat(ghe));
-      }}>
+        dispatch(quanLyDatVeActions.setListSeat(ghe));
+      }}
+    >
       {ghe.tenGhe}
     </Ghe>
   );

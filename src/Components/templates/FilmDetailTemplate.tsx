@@ -10,9 +10,12 @@ import "../../assets/style.scss";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { GheComponent } from "../ui";
 import { Bounce, toast } from "react-toastify";
+import { useQuanLyDatVeSelector } from "../../store/quanLyDatVe/selector";
 
 export const FilmDetailTemplate = () => {
-  const { user, listSeat } = useQuanLyNguoiDungSelector();
+  const { user } = useQuanLyNguoiDungSelector();
+
+  const { listSeat } = useQuanLyDatVeSelector();
 
   if (!user) {
     return <Navigate to="/login" />;
@@ -144,7 +147,8 @@ export const FilmDetailTemplate = () => {
                               onClick={() => {
                                 setIsOpenModal(true);
                                 setMaLichChieu(lichChieu.maLichChieu);
-                              }}>
+                              }}
+                            >
                               {dayjs(lichChieu.ngayChieuGioChieu).format(
                                 "DD-MM-YYYY , HH:mm"
                               )}{" "}
@@ -160,7 +164,8 @@ export const FilmDetailTemplate = () => {
                   />
                 </div>
               ),
-            }))}></Tabs>
+            }))}
+          ></Tabs>
         </div>
 
         {/* modal đặt vé */}
@@ -177,7 +182,8 @@ export const FilmDetailTemplate = () => {
           okText="Đặt vé"
           cancelText="Huỷ"
           width={800}
-          loading={!loading}>
+          loading={!loading}
+        >
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
           <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-20">
             {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
@@ -207,7 +213,8 @@ export const FilmDetailTemplate = () => {
           onOk={handleComplete}
           confirmLoading={confirmLoading}
           okText="Hoàn thành"
-          cancelButtonProps={{ style: { display: "none" } }}>
+          cancelButtonProps={{ style: { display: "none" } }}
+        >
           <h2 className="text-center text-[30px] font-semibold mb-9">
             Thông tin vé đã đặt
           </h2>
