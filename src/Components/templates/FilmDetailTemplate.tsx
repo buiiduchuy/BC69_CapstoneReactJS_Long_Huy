@@ -10,6 +10,7 @@ import "../../assets/style.scss";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { GheComponent } from "../ui";
 import { Bounce, toast } from "react-toastify";
+import styled from "styled-components";
 
 export const FilmDetailTemplate = () => {
   const { user, listSeat } = useQuanLyNguoiDungSelector();
