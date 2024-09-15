@@ -5,4 +5,6 @@ export const PATH = {
   contact: "/lienhe",
   aboutUs: "/vechungtoi",
   category: "/danhmuc",
+  admin: "/admin",
+  listUser: "/danhsachnguoidung",
 };

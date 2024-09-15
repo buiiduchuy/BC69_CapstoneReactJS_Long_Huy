@@ -1,7 +1,17 @@
 import { useRoutes } from "react-router-dom";
 import { PATH } from "../constants";
-import { Contact, FilmDetail, Home, Login, Register, AboutUs, Category } from "../pages";
-import { AuthLayout, MainLayout } from "../Components";
+import {
+  Contact,
+  FilmDetail,
+  Home,
+  Login,
+  Register,
+  AboutUs,
+  Category,
+  ListFimlAdmin,
+  ListUser,
+} from "../pages";
+import { AdminLayOut, AuthLayout, MainLayout } from "../Components";
 
 export const routers = () =>
   useRoutes([
@@ -40,6 +50,19 @@ export const routers = () =>
         {
           path: PATH.contact,
           element: <Contact />,
+        },
+      ],
+    },
+    {
+      element: <AdminLayOut />,
+      children: [
+        {
+          path: PATH.admin,
+          element: <ListFimlAdmin />,
+        },
+        {
+          path: PATH.listUser,
+          element: <ListUser />,
         },
       ],
     },
