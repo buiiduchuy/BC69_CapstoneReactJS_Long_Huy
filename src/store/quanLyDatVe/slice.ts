@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { DanhSachGhe } from "../../@types";
 
 type initialState = {
-  listSeat: [DanhSachGhe];
+  listSeat: DanhSachGhe;
 };
 
 const initialState = {
@@ -26,6 +26,9 @@ export const { reducer: quanLyDatVeReducer, actions: quanLyDatVeActions } =
         } else {
           state.listSeat.splice(index, 1);
         }
+      },
+      setClearSeat: (state, { payload }) => {
+        state.listSeat = payload;
       },
     },
   });
