@@ -76,9 +76,9 @@ export const FilmDetailTemplate = () => {
         setTimeout(() => {
           navigate("/");
         }, 2500);
+        dispatch(quanLyDatVeActions.setClearSeat([]));
       }, 200);
     }, 2000);
-    dispatch(quanLyDatVeActions.setClearSeat([]));
   };
 
   return (
