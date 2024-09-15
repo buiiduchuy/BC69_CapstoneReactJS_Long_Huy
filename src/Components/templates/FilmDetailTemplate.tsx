@@ -1,6 +1,6 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFilmDetailById, useGetShowtimeById } from "../hooks/api";
-import { Button, Collapse, Modal, Tabs } from "antd";
+import { Button, Collapse, Modal, Tabs, Table } from "antd";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
@@ -11,15 +11,21 @@ import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector
 import { GheComponent } from "../ui";
 import { Bounce, toast } from "react-toastify";
 import { useQuanLyDatVeSelector } from "../../store/quanLyDatVe/selector";
+import { useDispatch } from "react-redux";
+import { quanLyDatVeActions } from "../../store/quanLyDatVe";
 
 export const FilmDetailTemplate = () => {
   const { user } = useQuanLyNguoiDungSelector();
 
   const { listSeat } = useQuanLyDatVeSelector();
+  console.log("🚀 ~ FilmDetailTemplate ~ listSeat:", listSeat);
 
-  if (!user) {
-    return <Navigate to="/login" />;
-  }
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
+  if (!user) navigate("/login");
+
   const { id = "" } = useParams();
 
   const { data } = useFilmDetailById({ id });
@@ -68,10 +74,11 @@ export const FilmDetailTemplate = () => {
           transition: Bounce,
         });
         setTimeout(() => {
-          <Navigate to="/" />;
-        }, 200);
+          navigate("/");
+        }, 2500);
       }, 200);
     }, 2000);
+    dispatch(quanLyDatVeActions.setClearSeat([]));
   };
 
   return (
@@ -147,6 +154,7 @@ export const FilmDetailTemplate = () => {
                         <div className="flex gap-10 flex-wrap">
                           {cumRap.lichChieuPhim.map((lichChieu) => (
                             <Button
+                              key={lichChieu.maLichChieu}
                               type="primary"
                               onClick={() => {
                                 setIsOpenModal(true);
@@ -191,7 +199,7 @@ export const FilmDetailTemplate = () => {
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
           <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-20">
             {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
-              <GheComponent ghe={ghe} />
+              <GheComponent key={ghe.maGhe} ghe={ghe} />
             ))}
           </div>
           <ul className="flex mt-12 mb-5 space-x-4 justify-center">
@@ -239,11 +247,11 @@ export const FilmDetailTemplate = () => {
             </thead>
             <tbody>
               {listSeat.map((item) => {
-                tong += Number(item.giaVe);
+                tong += Number(item["giaVe"]);
                 return (
-                  <tr className="border">
-                    <td className="border text-center p-2">{item?.tenGhe}</td>
-                    <td className="border text-center p-2">{item?.giaVe}</td>
+                  <tr key={item["maGhe"]} className="border">
+                    <td className="border text-center p-2">{item["tenGhe"]}</td>
+                    <td className="border text-center p-2">{item["giaVe"]}</td>
                   </tr>
                 );
               })}

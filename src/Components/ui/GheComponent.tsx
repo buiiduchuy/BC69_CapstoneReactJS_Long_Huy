@@ -17,6 +17,7 @@ export const GheComponent = (props: Props) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   return (
     <Ghe
+      key={ghe.maGhe}
       className={cn("cursor-pointer", {
         daDat: ghe.daDat,
         gheThuong: ghe.loaiGhe === LoaiGhe.THUONG,
@@ -25,6 +26,7 @@ export const GheComponent = (props: Props) => {
       })}
       onClick={() => {
         setIsActive(!isActive);
+        console.log("🚀 ~ GheComponent ~ ghe:", ghe);
         dispatch(quanLyDatVeActions.setListSeat(ghe));
       }}
     >

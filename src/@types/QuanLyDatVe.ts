@@ -19,7 +19,7 @@ export enum LoaiGhe {
   VIP = "Vip",
 }
 
-export interface DanhSachGhe {
+export type DanhSachGhe = {
   maGhe: number;
   tenGhe: string;
   maRap: number;
@@ -28,4 +28,4 @@ export interface DanhSachGhe {
   giaVe: number;
   daDat: boolean;
   taiKhoanNguoiDat: any;
-}
+};
