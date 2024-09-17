@@ -18,7 +18,6 @@ export const FilmDetailTemplate = () => {
   const { user } = useQuanLyNguoiDungSelector();
 
   const { listSeat } = useQuanLyDatVeSelector();
-  console.log("🚀 ~ FilmDetailTemplate ~ listSeat:", listSeat);
 
   const dispatch = useDispatch();
 
@@ -31,7 +30,6 @@ export const FilmDetailTemplate = () => {
   const { data } = useFilmDetailById({ id });
 
   const { data: Showtimes } = useGetShowtimeById({ id });
-  // console.log("Showtimes: ", Showtimes);
 
   // const navigate = useNavigate();
   // back về trang trước navigate(-1)

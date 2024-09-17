@@ -59,3 +59,108 @@ nav {
     background: #fb923c;
   }
 }
+
+.tableAdmin {
+  table {
+    width: 600px;
+
+    @media screen and (min-width: 1024px) {
+      width: 100%;
+    }
+  }
+  tr {
+    font-size: 12px;
+    @media screen and (min-width: 1280px) {
+      font-size: 16px;
+    }
+    th {
+      &:first-child {
+        width: 110px;
+      }
+      &:nth-child(2) {
+        // width: 200px;
+        @media screen and (min-width: 1366px) {
+          width: 200px;
+        }
+      }
+      &:last-child {
+        width: 140px;
+      }
+    }
+    td {
+      &:first-child {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.adminLayout {
+  .blockSideBar {
+    width: 20%;
+    transition: all 0.3s ease;
+
+    @media screen and (min-width: 640px) {
+      width: 15%;
+    }
+    @media screen and (min-width: 1280px) {
+      width: 25%;
+    }
+
+    .logoSideBar {
+      width: 0;
+      opacity: 0;
+      z-index: -1;
+
+      @media screen and (min-width: 1280px) {
+        width: auto;
+        opacity: 1;
+      }
+    }
+  }
+
+  .blockContent {
+    padding-left: 20%;
+
+    @media screen and (min-width: 640px) {
+      padding-left: 15%;
+    }
+
+    @media screen and (min-width: 1280px) {
+      padding-left: 25%;
+    }
+    .ant-table-content {
+      overflow: scroll;
+
+      @media screen and (min-width: 1024px) {
+        overflow: inherit;
+      }
+    }
+  }
+
+  &.active {
+    .blockSideBar {
+      width: 70%;
+      @media screen and (min-width: 640px) {
+        width: 32%;
+      }
+      .logoSideBar {
+        width: 50px;
+        transition: all 0.3s ease;
+        opacity: 1;
+        z-index: 1;
+
+        @media screen and (min-width: 640px) {
+          width: 126px;
+        }
+      }
+    }
+  }
+  ul {
+    li {
+      a {
+        display: inline-block;
+      }
+    }
+  }
+}
