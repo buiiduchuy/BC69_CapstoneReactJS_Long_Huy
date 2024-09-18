@@ -1,14 +1,8 @@
 // import { DemoComponent } from './Components/DemoComponent'
-import { routers } from './router'
+import { routers } from "./router";
 
 function App() {
-
-  return (
-   <>
-    {routers()}
-    {/* <DemoComponent handleClick={()=>{}} handleClick1={()=>{}}/> */}
-   </>
-  )
+  return <>{routers()}</>;
 }
 
-export default App
+export default App;

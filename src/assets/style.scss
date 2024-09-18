@@ -110,7 +110,7 @@ nav {
     .logoSideBar {
       width: 0;
       opacity: 0;
-      z-index: -1;
+      // z-index: -1;
 
       @media screen and (min-width: 1280px) {
         width: auto;
@@ -160,6 +160,26 @@ nav {
     li {
       a {
         display: inline-block;
+      }
+    }
+  }
+}
+
+ul {
+  li {
+    list-style-type: none;
+  }
+}
+
+.ant-carousel {
+  .bannerCarousel {
+    ul {
+      li {
+        button {
+          &::before {
+            content: none !important;
+          }
+        }
       }
     }
   }

@@ -10,6 +10,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { v4 as uuidv4 } from "uuid";
+import { CarouselBanner } from "../ui";
 
 export const HomeTemplate = () => {
   const navigate = useNavigate();
@@ -127,58 +128,64 @@ export const HomeTemplate = () => {
 
   if (isFetching) {
     return (
-      <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-40 container">
-        {[...Array(12)].map(() => {
-          return (
-            <div key={uuidv4()}>
-              <Skeleton.Input
-                active
-                className="!h-[350px] !w-full bg-gray-950"
-              />
-              <Skeleton.Input active className="mt-2 !w-full bg-gray-950" />
-              <Skeleton.Input active className="mt-2 !w-[80px] bg-gray-950" />
-            </div>
-          );
-        })}
-      </div>
+      <>
+        <Skeleton active className="!h-[150px] !w-full bg-gray-950 mb-12" />
+        <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-40 container">
+          {[...Array(12)].map(() => {
+            return (
+              <div key={uuidv4()}>
+                <Skeleton.Input
+                  active
+                  className="!h-[350px] !w-full bg-gray-950"
+                />
+                <Skeleton.Input active className="mt-2 !w-full bg-gray-950" />
+                <Skeleton.Input active className="mt-2 !w-[80px] bg-gray-950" />
+              </div>
+            );
+          })}
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="container m-auto xl:py-[90px] md:py-[50px] px-4">
-      <div className="mb-24">
-        <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
-          Phim đang chiếu
-        </p>
-        <Slider {...settings} className="xl:-mx-5">
-          {renderPhim(data?.data.content.filter((item) => item.dangChieu))}
-        </Slider>
-        <div className="text-center">
-          <Button
-            type="text"
-            className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
-            size="large">
-            Xem tất cả
-          </Button>
+    <>
+      <CarouselBanner />
+      <div className="container m-auto py-[50px] px-4">
+        <div className="mb-24">
+          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
+            Phim đang chiếu
+          </p>
+          <Slider {...settings} className="xl:-mx-5">
+            {renderPhim(data?.data.content.filter((item) => item.dangChieu))}
+          </Slider>
+          <div className="text-center">
+            <Button
+              type="text"
+              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
+              size="large">
+              Xem tất cả
+            </Button>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
-          Phim sắp chiếu
-        </p>
-        <Slider {...settings}>
-          {renderPhim(data?.data.content.filter((item) => !item.dangChieu))}
-        </Slider>
-        <div className="text-center">
-          <Button
-            type="text"
-            className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
-            size="large">
-            Xem tất cả
-          </Button>
+        <div>
+          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
+            Phim sắp chiếu
+          </p>
+          <Slider {...settings}>
+            {renderPhim(data?.data.content.filter((item) => !item.dangChieu))}
+          </Slider>
+          <div className="text-center">
+            <Button
+              type="text"
+              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
+              size="large">
+              Xem tất cả
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
