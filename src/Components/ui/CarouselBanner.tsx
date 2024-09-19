@@ -13,7 +13,6 @@ export const CarouselBanner = () => {
     },
     enabled: true,
   });
-  console.log("data: ", data?.data.content);
   // const contentStyle: React.CSSProperties = {
   //   height: "160px",
   //   color: "#fff",
