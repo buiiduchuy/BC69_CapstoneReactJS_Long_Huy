@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { SideBar } from "../ui/SideBar";
+import { SideBar } from "../ui";
 import { useState } from "react";
 import cn from "classnames";
+import { boolean } from "zod";
 
 export const AdminLayOut = () => {
   const [activeSidebar, setActiveSidebar] = useState<boolean>(false);
@@ -12,11 +13,12 @@ export const AdminLayOut = () => {
         className={cn(
           "flex flex-wrap  min-h-screen md:text-[16px] text-[14px] md:pt-0 adminLayout relative",
           { active: activeSidebar }
-        )}>
+        )}
+      >
         <div className="blockSideBar absolute top-0 left-0 h-full bg-[#1a191f] z-10">
           <SideBar
             activeSidebar={activeSidebar}
-            setActiveSidebar={setActiveSidebar}
+            setActiveSidebar: boolean={setActiveSidebar}
           />
         </div>
         <div className="blockContent w-full">

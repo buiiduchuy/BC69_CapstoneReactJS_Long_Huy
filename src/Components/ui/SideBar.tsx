@@ -18,8 +18,8 @@ export const SideBar = (props: Props) => {
           "flex xl:justify-between justify-center items-center mb-12",
           { "justify-between": activeSidebar }
         )}>
-        <a
-          href="/"
+        <NavLink
+          to="/"
           className="flex items-center space-x-3 rtl:space-x-reverse logoSideBar">
           <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
             <svg
@@ -38,7 +38,7 @@ export const SideBar = (props: Props) => {
               />
             </svg>
           </span>
-        </a>
+        </NavLink>
         <button
           data-collapse-toggle="navbar-default"
           type="button"
