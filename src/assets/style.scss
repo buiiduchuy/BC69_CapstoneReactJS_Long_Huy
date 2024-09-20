@@ -159,6 +159,38 @@ nav {
   }
 }
 
+.adminLayout {
+  table {
+    tr {
+      th {
+        border: 1px solid #000;
+        padding: 10px;
+
+        &:nth-child(1) {
+          min-width: 100px;
+        }
+
+        &:nth-child(2) {
+          min-width: 200px;
+        }
+
+        &:last-child {
+          min-width: 200px;
+        }
+      }
+
+      td {
+        border: 1px solid #000;
+        padding: 10px;
+
+        img {
+          max-width: 120px;
+        }
+      }
+    }
+  }
+}
+
 ul {
   li {
     list-style-type: none;

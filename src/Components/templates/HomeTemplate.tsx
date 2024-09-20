@@ -129,7 +129,7 @@ export const HomeTemplate = () => {
   if (isFetching) {
     return (
       <>
-        <Skeleton active className="!h-[150px] !w-full bg-gray-950 mb-12" />
+        <Skeleton active className="!h-[650px] !w-full bg-gray-950 mb-12" />
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-40 container">
           {[...Array(12)].map(() => {
             return (

@@ -42,14 +42,14 @@ export const ListFilmAdminTemplate = () => {
           className="w-full adminInputSearch"
         />
       </div>
-      <table className="table-auto">
+      <table className="table-auto border-collapse border bg-white">
         <thead>
           <tr>
-            <th>Tên phim</th>
             <th>Mã phim</th>
+            <th>Tên phim</th>
             <th>Hình ảnh</th>
             <th>Mô tả</th>
-            <th></th>
+            <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -57,14 +57,13 @@ export const ListFilmAdminTemplate = () => {
             return (
               <>
                 <tr key={phim.maPhim}>
+                  <td className="text-center">{phim.maPhim}</td>
                   <td>{phim.tenPhim}</td>
-                  <td>{phim.maPhim}</td>
                   <td>
                     <img src={phim.hinhAnh} />
                   </td>
-                  <td>{phim.maPhim}</td>
                   <td>{phim.moTa}</td>
-                  <td>
+                  <td className="text-center">
                     <Button
                       danger
                       onClick={async () => {
@@ -81,11 +80,12 @@ export const ListFilmAdminTemplate = () => {
                         } catch (error) {
                           console.log("🚀 ~ onClick={ ~ error:", error);
                         }
-                      }}
-                    >
+                      }}>
                       Delete
                     </Button>
-                    <Button type="primary">Edit</Button>
+                    <Button type="primary" className="ms-2">
+                      Edit
+                    </Button>
                   </td>
                 </tr>
               </>
