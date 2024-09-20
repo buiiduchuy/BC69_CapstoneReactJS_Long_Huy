@@ -12,3 +12,9 @@ export type Phim = {
   dangChieu: boolean;
   sapChieu: boolean;
 };
+
+export type PhimTable = {
+  maPhim: number;
+  tenPhim: string;
+  hinhAnh: string;
+};

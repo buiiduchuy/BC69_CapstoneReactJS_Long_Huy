@@ -39,9 +39,13 @@ export const RegisterTemplate = () => {
           <Controller
             name="hoTen"
             control={control}
-            render={({ field }) => <Input status={errors.hoTen && "error"} {...field} />}
+            render={({ field }) => (
+              <Input status={errors.hoTen && "error"} {...field} />
+            )}
           />
-          {errors.hoTen && <p className="text-red-500">{errors.hoTen.message}</p>}
+          {errors.hoTen && (
+            <p className="text-red-500">{errors.hoTen.message}</p>
+          )}
         </div>
 
         <div className="mt-[20px]">
@@ -51,9 +55,13 @@ export const RegisterTemplate = () => {
           <Controller
             name="email"
             control={control}
-            render={({ field }) => <Input status={errors.email && "error"} {...field} />}
+            render={({ field }) => (
+              <Input status={errors.email && "error"} {...field} />
+            )}
           />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
         </div>
 
         <div className="mt-[20px]">
@@ -63,7 +71,9 @@ export const RegisterTemplate = () => {
           <Controller
             name="soDt"
             control={control}
-            render={({ field }) => <Input status={errors.soDt && "error"} {...field} />}
+            render={({ field }) => (
+              <Input status={errors.soDt && "error"} {...field} />
+            )}
           />
           {errors.soDt && <p className="text-red-500">{errors.soDt.message}</p>}
         </div>
@@ -75,9 +85,13 @@ export const RegisterTemplate = () => {
           <Controller
             name="maNhom"
             control={control}
-            render={({ field }) => <Input status={errors.maNhom && "error"} {...field} />}
+            render={({ field }) => (
+              <Input status={errors.maNhom && "error"} {...field} />
+            )}
           />
-          {errors.maNhom && <p className="text-red-500">{errors.maNhom.message}</p>}
+          {errors.maNhom && (
+            <p className="text-red-500">{errors.maNhom.message}</p>
+          )}
         </div>
 
         <div className="mt-[20px]">
@@ -87,9 +101,13 @@ export const RegisterTemplate = () => {
           <Controller
             name="taiKhoan"
             control={control}
-            render={({ field }) => <Input status={errors.taiKhoan && "error"} {...field} />}
+            render={({ field }) => (
+              <Input status={errors.taiKhoan && "error"} {...field} />
+            )}
           />
-          {errors.taiKhoan && <p className="text-red-500">{errors.taiKhoan.message}</p>}
+          {errors.taiKhoan && (
+            <p className="text-red-500">{errors.taiKhoan.message}</p>
+          )}
         </div>
 
         <div className="mt-[20px]">
@@ -99,9 +117,13 @@ export const RegisterTemplate = () => {
           <Controller
             name="matKhau"
             control={control}
-            render={({ field }) => <Input.Password status={errors.matKhau && "error"} {...field} />}
+            render={({ field }) => (
+              <Input.Password status={errors.matKhau && "error"} {...field} />
+            )}
           />
-          {errors.matKhau && <p className="text-red-500">{errors.matKhau.message}</p>}
+          {errors.matKhau && (
+            <p className="text-red-500">{errors.matKhau.message}</p>
+          )}
         </div>
 
         <Button

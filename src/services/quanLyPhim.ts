@@ -12,4 +12,7 @@ export const quanLyPhimServices = {
   getPhimDetailById: (query = "") => {
     return api.get<HttpResponse<Phim>>(`/LayThongTinPhim${query}`);
   },
+  deletePhim: (query = "") => {
+    return api.delete<HttpResponse<Phim>>(`/XoaPhim${query}`);
+  },
 };
