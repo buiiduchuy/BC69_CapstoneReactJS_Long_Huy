@@ -171,7 +171,7 @@ nav {
         }
 
         &:nth-child(2) {
-          min-width: 200px;
+          min-width: 250px;
         }
 
         &:last-child {
@@ -184,9 +184,16 @@ nav {
         padding: 10px;
 
         img {
-          max-width: 120px;
+          max-width: 100px;
         }
       }
+    }
+  }
+  .paginate {
+    a.active {
+      background-color: #fb923c;
+      color: #fff;
+      transition: all 0.2s ease;
     }
   }
 }

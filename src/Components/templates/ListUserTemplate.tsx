@@ -1,77 +1,7 @@
-import { Button, Input, Modal, Space, Table } from "antd";
-import type { TableProps } from "antd";
+import { Button, Input, Modal } from "antd";
 import { useState } from "react";
 
 export const ListUserTemplate = () => {
-  interface DataType {
-    taiKhoan: string;
-    email: string;
-    hoTen: string;
-    soDienThoai: string;
-  }
-
-  const columns: TableProps<DataType>["columns"] = [
-    {
-      title: "Tài Khoản",
-      dataIndex: "taiKhoan",
-      key: "taiKhoan",
-      render: (text) => <p>{text}</p>,
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-      render: (text) => <p>{text}</p>,
-    },
-    {
-      title: "Họ Tên",
-      dataIndex: "hoTen",
-      key: "hoTen",
-    },
-    {
-      title: "Số Điện Thoại",
-      dataIndex: "soDienThoai",
-      key: "soDienThoai",
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: () => (
-        <Space size="middle">
-          <Button
-            className="catalog__btn--banned
-                ">
-            <i className="fa-solid fa-pen"></i>
-          </Button>
-          <Button className="catalog__btn--delete">
-            <i className="fa-solid fa-trash"></i>
-          </Button>
-        </Space>
-      ),
-    },
-  ];
-
-  const data: DataType[] = [
-    {
-      taiKhoan: "1",
-      email: "Email",
-      hoTen: "Họ tên",
-      soDienThoai: "0987654321",
-    },
-    {
-      taiKhoan: "2",
-      email: "Email",
-      hoTen: "Họ tên",
-      soDienThoai: "0987654321",
-    },
-    {
-      taiKhoan: "3",
-      email: "Email",
-      hoTen: "Họ tên",
-      soDienThoai: "0987654321",
-    },
-  ];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -104,8 +34,7 @@ export const ListUserTemplate = () => {
           className="w-full adminInputSearch"
         />
       </div>
-      <Table columns={columns} dataSource={data} className="tableAdmin" />;
-      {/* <table className="w-full text-white">
+      <table className="w-full text-white">
         <thead>
           <tr className="xl:text-[16px] text-[12px]">
             <th className="py-3 px-2">TÀI KHOẢN</th>
@@ -147,7 +76,7 @@ export const ListUserTemplate = () => {
             </td>
           </tr>
         </tbody>
-      </table> */}
+      </table>
       <Modal
         title={<h3 className="text-center text-[25px] mb-2">Thêm phim mới</h3>}
         open={isModalOpen}
