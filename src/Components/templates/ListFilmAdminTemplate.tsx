@@ -64,60 +64,65 @@ export const ListFilmAdminTemplate = () => {
           className="w-full adminInputSearch"
         />
       </div>
-      <table className="table-auto border-collapse border text-white bg-gray-700">
-        <thead>
-          <tr className="xl:text-[16px] text-[12px]">
-            <th className="py-3 px-2">Mã phim</th>
-            <th className="py-3 px-2">Tên phim</th>
-            <th className="py-3 px-2">Hình ảnh</th>
-            <th className="py-3 px-2">Mô tả</th>
-            <th className="py-3 px-2">Hành động</th>
-          </tr>
-        </thead>
-        <tbody>
-          {listPost &&
-            listPost.map((phim) => {
-              return (
-                <>
-                  <tr
-                    key={phim.maPhim}
-                    className="mb-2 xl:text-[16px] text-[12px]">
-                    <td className="py-3 px-2 text-center">{phim.maPhim}</td>
-                    <td className="py-3 px-2">{phim.tenPhim}</td>
-                    <td className="py-3 px-2">
-                      <img src={phim.hinhAnh} />
-                    </td>
-                    <td className="py-3 px-2">{phim.moTa}</td>
-                    <td className="py-3 px-2 text-center">
-                      <Button
-                        danger
-                        onClick={async () => {
-                          console.log(phim.maPhim);
-                          try {
-                            await axios.delete(
-                              "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
-                                phim.maPhim,
-                              {
-                                headers,
-                              }
-                            );
-                            // setSuccess(true);
-                          } catch (error) {
-                            console.log("🚀 ~ onClick={ ~ error:", error);
-                          }
-                        }}>
-                        Delete
-                      </Button>
-                      <Button type="primary" className="ms-2">
-                        Edit
-                      </Button>
-                    </td>
-                  </tr>
-                </>
-              );
-            })}
-        </tbody>
-      </table>
+      <div className="overflow-x-auto">
+        <table className="table-auto border-collapse border text-white bg-gray-700">
+          <thead>
+            <tr className="xl:text-[16px] text-[12px]">
+              <th className="py-3 px-2">Mã phim</th>
+              <th className="py-3 px-2">Tên phim</th>
+              <th className="py-3 px-2">Hình ảnh</th>
+              <th className="py-3 px-2">Mô tả</th>
+              <th className="py-3 px-2">Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listPost &&
+              listPost.map((phim) => {
+                return (
+                  <>
+                    <tr
+                      key={phim.maPhim}
+                      className="mb-2 xl:text-[16px] text-[12px]">
+                      <td className="py-3 px-2 text-center">{phim.maPhim}</td>
+                      <td className="py-3 px-2">{phim.tenPhim}</td>
+                      <td className="py-3 px-2">
+                        <img src={phim.hinhAnh} />
+                      </td>
+                      <td className="py-3 px-2">{`${phim.moTa.slice(
+                        0,
+                        200
+                      )}...`}</td>
+                      <td className="py-3 px-2 text-center">
+                        <Button
+                          danger
+                          onClick={async () => {
+                            console.log(phim.maPhim);
+                            try {
+                              await axios.delete(
+                                "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
+                                  phim.maPhim,
+                                {
+                                  headers,
+                                }
+                              );
+                              // setSuccess(true);
+                            } catch (error) {
+                              console.log("🚀 ~ onClick={ ~ error:", error);
+                            }
+                          }}>
+                          Delete
+                        </Button>
+                        <Button type="primary" className="ms-2">
+                          Edit
+                        </Button>
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+          </tbody>
+        </table>
+      </div>
 
       <div className="mb-5 mt-9">
         <Paginate

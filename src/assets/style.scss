@@ -95,7 +95,7 @@ nav {
     transition: all 0.3s ease;
 
     @media screen and (min-width: 640px) {
-      width: 15%;
+      width: 10%;
     }
     @media screen and (min-width: 1280px) {
       width: 25%;
@@ -111,13 +111,26 @@ nav {
         opacity: 1;
       }
     }
+
+    ul {
+      li {
+        text-align: center;
+
+        @media screen and (min-width: 1025px) {
+          text-align: left;
+        }
+        i {
+          font-size: 22px;
+        }
+      }
+    }
   }
 
   .blockContent {
     padding-left: 20%;
 
     @media screen and (min-width: 640px) {
-      padding-left: 15%;
+      padding-left: 10%;
     }
 
     @media screen and (min-width: 1280px) {
@@ -148,6 +161,11 @@ nav {
           width: 126px;
         }
       }
+      ul {
+        li {
+          text-align: left;
+        }
+      }
     }
   }
   ul {
@@ -161,21 +179,33 @@ nav {
 
 .adminLayout {
   table {
+    min-width: 700px;
     tr {
       th {
         border: 1px solid #000;
         padding: 10px;
 
         &:nth-child(1) {
-          min-width: 100px;
+          min-width: 80px;
+
+          @media screen and (min-width: 1025px) {
+            min-width: 100px;
+          }
         }
 
         &:nth-child(2) {
-          min-width: 250px;
+          min-width: 150px;
+
+          @media screen and (min-width: 1025px) {
+            min-width: 250px;
+          }
         }
 
         &:last-child {
-          min-width: 200px;
+          min-width: 170px;
+          @media screen and (min-width: 1025px) {
+            min-width: 200px;
+          }
         }
       }
 
@@ -184,7 +214,10 @@ nav {
         padding: 10px;
 
         img {
-          max-width: 100px;
+          max-width: 80px;
+          @media screen and (min-width: 1025px) {
+            max-width: 100px;
+          }
         }
       }
     }
