@@ -7,7 +7,6 @@ import { token } from "../../constants";
 import { useState } from "react";
 
 export const ListFilmAdminTemplate = () => {
-  const navigate = useNavigate();
   // lấy danh sách phim
   const { data, refetch } = useQuery({
     queryKey: ["DanhSachPhim"],
