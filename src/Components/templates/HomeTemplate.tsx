@@ -129,9 +129,9 @@ export const HomeTemplate = () => {
   if (isFetching) {
     return (
       <>
-        <Skeleton active className="!h-[150px] !w-full bg-gray-950 mb-12" />
+        <Skeleton active className="!h-[650px] !w-full bg-gray-950 mb-12" />
         <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-40 container">
-          {[...Array(12)].map(() => {
+          {[...Array(5)].map(() => {
             return (
               <div key={uuidv4()}>
                 <Skeleton.Input
@@ -153,7 +153,7 @@ export const HomeTemplate = () => {
       <CarouselBanner />
       <div className="container m-auto py-[50px] px-4">
         <div className="mb-24">
-          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
+          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] leading-9 lg:mb-30 mb-3 text-white uppercase border-l-[5px] border-orange-400 ps-4">
             Phim đang chiếu
           </p>
           <Slider {...settings} className="xl:-mx-5">
@@ -170,7 +170,7 @@ export const HomeTemplate = () => {
         </div>
 
         <div>
-          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white uppercase">
+          <p className="font-500 lg:text-[30px] md:text-[25px] text-[20px] lg:mb-30 mb-3 text-white  leading-9 uppercase border-l-[5px] border-orange-400 ps-4">
             Phim sắp chiếu
           </p>
           <Slider {...settings}>

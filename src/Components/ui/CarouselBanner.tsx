@@ -22,7 +22,7 @@ export const CarouselBanner = () => {
   // };
 
   return (
-    <Carousel autoplay className="bannerCarousel">
+    <Carousel autoplay className="bannerCarousel" arrows={true} fade={true}>
       {data?.data.content.map((item) => (
         <div key={uuidv4()} className="w-full h-full">
           <img
