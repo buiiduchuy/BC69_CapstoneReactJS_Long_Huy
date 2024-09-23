@@ -4,7 +4,6 @@ import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
 import axios from "axios";
 import { token } from "../../constants";
-import { useState } from "react";
 
 export const ListFilmAdminTemplate = () => {
   // lấy danh sách phim
@@ -75,7 +74,34 @@ export const ListFilmAdminTemplate = () => {
                   >
                     Delete
                   </Button>
-                  <Button type="primary">Edit</Button>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      console.log("Edit");
+                      /**
+                       * Call modal
+                       * hiển thị modal lên với cái UI from cho chỉnh sửa các field như này:
+                       * [
+                          {
+                            "maPhim": 14097,
+                            "tenPhim": "Cô gái từ wá khứ",
+                            "biDanh": "co-gai-tu-wa-khu",
+                            "trailer": "https://youtu.be/WsBV9s1SqpM",
+                            "hinhAnh": "https://movienew.cybersoft.edu.vn/hinhanh/co-gai-tu-wa-khu_gp01.png",
+                            "moTa": "Phim có màu sắc u buồn",
+                            "maNhom": "GP01",
+                            "ngayKhoiChieu": "2024-06-14T01:38:27.95",
+                            "danhGia": 10,
+                            "hot": true,
+                            "dangChieu": false,
+                            "sapChieu": true
+                          }
+                        ]
+                       */
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </td>
               </tr>
             );
