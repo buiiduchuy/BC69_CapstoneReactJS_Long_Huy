@@ -8,3 +8,7 @@ export const PATH = {
   admin: "/admin",
   listUser: "/danhsachnguoidung",
 };
+
+export const MANHOM = {
+  manhom: "maNhom=GP03",
+};

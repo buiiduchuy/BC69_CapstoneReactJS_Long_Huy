@@ -2,10 +2,13 @@ import { Avatar, Button, Divider, Popover } from "antd";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { useAppDispatch } from "../../store";
 import { quanLyNguoiDungActions } from "../../store/quanLyNguoiDung";
-import { NavLink, useNavigate } from "react-router-dom";
-import { PATH } from "../../constants";
+import { generatePath, Link, NavLink, useNavigate } from "react-router-dom";
+import { MANHOM, PATH } from "../../constants";
 import { useState } from "react";
 import cn from "classnames";
+import { useQuery } from "@tanstack/react-query";
+import { quanLyPhimServices } from "../../services";
+import { Phim } from "../../@types";
 
 export const Header = () => {
   const { user } = useQuanLyNguoiDungSelector();
@@ -15,6 +18,29 @@ export const Header = () => {
   const navigate = useNavigate();
 
   const [isshowMenu, setIsShowMenu] = useState(false);
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["DanhSachPhim"],
+    queryFn: async () => {
+      return quanLyPhimServices.getDanhSachPhim(MANHOM.manhom);
+    },
+    enabled: true,
+  });
+
+  const [searchResult, setSearchResult] = useState([]);
+
+  const handleSearch = (e: any) => {
+    const { value } = e.target;
+    console.log("e", value);
+    if (value.length === 0) {
+      setSearchResult([]);
+      return;
+    }
+    const newData = data?.data.content.filter((item) =>
+      item.tenPhim.toLowerCase().includes(value.toLowerCase())
+    );
+    setSearchResult(newData);
+  };
 
   return (
     <nav className="bg-[#1a191f] fixed w-full z-20 top-0 start-0 border-b border-gray-800">
@@ -40,7 +66,7 @@ export const Header = () => {
         </a>
         <div
           className={cn(
-            "menu flex items-center flex-1 md:flex-row flex-col lg:relative absolute w-full top-full left-0 px-3 lg:px-0 lg:py-0 py-5 lg:bg-transparent bg-[#1f1e24]",
+            "menu flex items-center flex-1 md:flex-row flex-col lg:relative absolute w-full top-full left-0 px-3 lg:px-0 lg:py-0 py-5 lg:bg-transparent bg-[#1f1e24] overflow-visible",
             {
               isShow: isshowMenu,
             }
@@ -83,35 +109,64 @@ export const Header = () => {
               </li>
             </ul>
           </div>
-          <form className="md:max-w-md md:me-5 md:mb-0 mb-5 md:w-auto w-full">
-            <div className="relative">
-              <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20">
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
+          <div className="md:max-w-md md:me-5 md:mb-0 mb-5 md:w-[300px] w-full relative">
+            <form className="w-full">
+              <div className="relative">
+                {/* <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                  <svg
+                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 20 20">
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                    />
+                  </svg>
+                </div> */}
+                <input
+                  type="search"
+                  id="default-search"
+                  className="block w-full max- p-2 text-sm text-white border-2 border-gray-800 rounded-lg bg-gray-800 focus:border-orange-300 outline-none"
+                  placeholder="Tìm kiếm..."
+                  onChange={(e) => handleSearch(e)}
+                />
+                {/* <button
+                  type="submit"
+                  className="text-white absolute end-2 bottom-4 w-6 h-6"></button> */}
               </div>
-              <input
-                type="search"
-                id="default-search"
-                className="block w-full max- p-2 pe-6 text-sm text-white border-2 border-gray-800 rounded-lg bg-gray-800 focus:border-orange-300 outline-none"
-                placeholder="Tìm kiếm..."
-              />
-              <button
-                type="submit"
-                className="text-white absolute end-2 bottom-4 w-6 h-6"></button>
-            </div>
-          </form>
+            </form>
+            {!!searchResult && (
+              <div className="absolute top-full left-0 w-full bg-gray-600">
+                <ul>
+                  {searchResult.map((phim: Phim) => (
+                    <li key={phim.maPhim} className="">
+                      <a
+                        className="flex text-white p-2 cursor-pointer"
+                        onClick={() => {
+                          const path = generatePath(PATH.phimDetail, {
+                            id: phim.maPhim,
+                          });
+                          navigate(path);
+                          setSearchResult([]);
+                        }}>
+                        <img
+                          src={phim.hinhAnh}
+                          alt={phim.biDanh}
+                          className="w-16"
+                        />
+                        <p className="ms-2 text-[15px]">{phim.tenPhim}</p>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           <div className="flex space-x-3 rtl:space-x-reverse">
             {user ? (
               <div className="flex items-center gap-10">

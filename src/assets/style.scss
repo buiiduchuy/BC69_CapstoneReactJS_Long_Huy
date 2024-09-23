@@ -18,7 +18,6 @@ nav {
     }
   }
   .menu {
-    overflow: hidden;
     transform: scaleY(0);
     transform-origin: top;
     transition: all 0.3s ease;
@@ -238,6 +237,7 @@ ul {
 }
 
 .ant-carousel {
+  outline: none;
   .bannerCarousel {
     ul {
       li {
@@ -248,5 +248,23 @@ ul {
         }
       }
     }
+  }
+}
+
+.ant-card {
+  button {
+    padding: 15px 25px !important;
+  }
+}
+.titleCard {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  height: 60px;
+
+  @media screen and (min-width: 1025px) {
+    height: 65px;
   }
 }

@@ -1,11 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { quanLyPhimServices } from "../../services";
 import { Button, Card, Skeleton } from "antd";
-import Meta from "antd/es/card/Meta";
 import { sleep } from "../../utils";
 import { Phim } from "../../@types";
-import { generatePath, useNavigate } from "react-router-dom";
-import { PATH } from "../../constants";
+import { generatePath, Link, useNavigate } from "react-router-dom";
+import { MANHOM, PATH } from "../../constants";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -20,13 +19,13 @@ export const HomeTemplate = () => {
     queryKey: ["DanhSachPhim"],
     queryFn: async () => {
       await sleep(1000);
-      return quanLyPhimServices.getDanhSachPhim("maNhom=GP03");
+      return quanLyPhimServices.getDanhSachPhim(MANHOM.manhom);
     },
     enabled: true,
   });
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
@@ -50,12 +49,6 @@ export const HomeTemplate = () => {
         breakpoint: 767,
         settings: {
           slidesToShow: 2,
-        },
-      },
-      {
-        breakpoint: 640,
-        settings: {
-          slidesToShow: 1,
         },
       },
     ],
@@ -106,9 +99,11 @@ export const HomeTemplate = () => {
                 className="aspect-[3/5] !rounded-[10px]"
               />
             }
-            className="mb-[30px] bg-transparent border-none sm:max-w-full max-w-96 mx-auto"
+            className="mb-[30px] bg-transparent border-none sm:max-w-full max-w-96 mx-auto sm:px-0 px-3"
             styles={{ body: { padding: "10px 0" } }}>
-            <Meta title={<h3 className="text-white py-2">{phim.tenPhim}</h3>} />
+            <h3 className="text-white py-2 xl:text-[18px] md:text-[16px] text-[14px] titleCard">
+              {phim.tenPhim}
+            </h3>
             <Button
               type="text"
               className="mt-10 bg-transparent !text-white rounded-md border-2 border-orange-300 hover:!bg-orange-300"
@@ -160,12 +155,12 @@ export const HomeTemplate = () => {
             {renderPhim(data?.data.content.filter((item) => item.dangChieu))}
           </Slider>
           <div className="text-center">
-            <Button
+            <Link
+              to="danhmuc"
               type="text"
-              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
-              size="large">
+              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300 py-3 px-6">
               Xem tất cả
-            </Button>
+            </Link>
           </div>
         </div>
 
@@ -177,12 +172,12 @@ export const HomeTemplate = () => {
             {renderPhim(data?.data.content.filter((item) => !item.dangChieu))}
           </Slider>
           <div className="text-center">
-            <Button
+            <Link
+              to="danhmuc"
               type="text"
-              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300"
-              size="large">
+              className="!text-white rounded-md border-2 border-orange-300 ms-2 hover:!bg-orange-300 py-3 px-6">
               Xem tất cả
-            </Button>
+            </Link>
           </div>
         </div>
       </div>
