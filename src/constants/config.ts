@@ -7,4 +7,5 @@ export const PATH = {
   category: "/danhmuc",
   admin: "/admin",
   listUser: "/danhsachnguoidung",
+  addPhim: "/them_moi",
 };

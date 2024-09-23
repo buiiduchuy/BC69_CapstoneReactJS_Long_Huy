@@ -4,8 +4,10 @@ import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
 import axios from "axios";
 import { token } from "../../constants";
+import { useNavigate } from "react-router-dom";
 
 export const ListFilmAdminTemplate = () => {
+  const navigate = useNavigate();
   // lấy danh sách phim
   const { data, refetch } = useQuery({
     queryKey: ["DanhSachPhim"],
@@ -29,7 +31,14 @@ export const ListFilmAdminTemplate = () => {
         <h2 className="text-white uppercase font-500 xl:text-[30px] md:text-[25px] text-[20px] mb-5 md:mb-0">
           Danh sách phim
         </h2>
-        <Button className="py-5 hover:!bg-orange-400 hover:!text-white hover:!border-white">Thêm phim mới</Button>
+        <Button
+          className="py-5 hover:!bg-orange-400 hover:!text-white hover:!border-white"
+          onClick={() => {
+            navigate("/them_moi");
+          }}
+        >
+          Thêm phim mới
+        </Button>
       </div>
       <div className="mb-6">
         <Input.Search placeholder="Tìm phim..." className="w-full adminInputSearch" />
@@ -97,6 +106,7 @@ export const ListFilmAdminTemplate = () => {
                             "sapChieu": true
                           }
                         ]
+                        * Tạo nút cập nhật
                        */
                     }}
                   >

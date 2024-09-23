@@ -10,6 +10,7 @@ import {
   Category,
   ListFimlAdmin,
   ListUser,
+  ThemMoi,
 } from "../pages";
 import { AdminLayOut, AuthLayout, MainLayout } from "../Components";
 
@@ -63,6 +64,10 @@ export const routers = () =>
         {
           path: PATH.listUser,
           element: <ListUser />,
+        },
+        {
+          path: PATH.addPhim,
+          element: <ThemMoi />,
         },
       ],
     },
