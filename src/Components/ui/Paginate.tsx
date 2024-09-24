@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import cn from "classnames";
 
 type Props = {
-  total: number | undefined;
+  total: number;
   current: number;
   numberPost: number;
   setCurrent: Dispatch<SetStateAction<number>>;

@@ -2,9 +2,9 @@ import { Avatar, Button, Divider, Popover } from "antd";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 import { useAppDispatch } from "../../store";
 import { quanLyNguoiDungActions } from "../../store/quanLyNguoiDung";
-import { generatePath, Link, NavLink, useNavigate } from "react-router-dom";
+import { generatePath, NavLink, useNavigate } from "react-router-dom";
 import { MANHOM, PATH } from "../../constants";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import cn from "classnames";
 import { useQuery } from "@tanstack/react-query";
 import { quanLyPhimServices } from "../../services";
@@ -19,7 +19,7 @@ export const Header = () => {
 
   const [isshowMenu, setIsShowMenu] = useState(false);
 
-  const { data, isFetching } = useQuery({
+  const { data } = useQuery({
     queryKey: ["DanhSachPhim"],
     queryFn: async () => {
       return quanLyPhimServices.getDanhSachPhim(MANHOM.manhom);
@@ -27,11 +27,12 @@ export const Header = () => {
     enabled: true,
   });
 
-  const [searchResult, setSearchResult] = useState([]);
+  const [searchResult, setSearchResult] = useState<Phim[] | undefined>([]);
 
-  const handleSearch = (e: any) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log("e", value);
     if (value.length === 0) {
       setSearchResult([]);
       return;
@@ -40,6 +41,13 @@ export const Header = () => {
       item.tenPhim.toLowerCase().includes(value.toLowerCase())
     );
     setSearchResult(newData);
+  };
+
+  const handleResetInput = () => {
+    if (inputRef.current != null) {
+      inputRef.current.value = "";
+    }
+    setSearchResult([]);
   };
 
   return (
@@ -112,36 +120,18 @@ export const Header = () => {
           <div className="md:max-w-md md:me-5 md:mb-0 mb-5 md:w-[300px] w-full relative">
             <form className="w-full">
               <div className="relative">
-                {/* <div className="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
-                  <svg
-                    className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 20 20">
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                    />
-                  </svg>
-                </div> */}
                 <input
+                  ref={inputRef}
                   type="search"
                   id="default-search"
                   className="block w-full max- p-2 text-sm text-white border-2 border-gray-800 rounded-lg bg-gray-800 focus:border-orange-300 outline-none"
                   placeholder="Tìm kiếm..."
                   onChange={(e) => handleSearch(e)}
                 />
-                {/* <button
-                  type="submit"
-                  className="text-white absolute end-2 bottom-4 w-6 h-6"></button> */}
               </div>
             </form>
             {!!searchResult && (
-              <div className="absolute top-full left-0 w-full bg-gray-600">
+              <div className="absolute top-full left-0 w-full bg-gray-700">
                 <ul>
                   {searchResult.map((phim: Phim) => (
                     <li key={phim.maPhim} className="">
@@ -153,11 +143,12 @@ export const Header = () => {
                           });
                           navigate(path);
                           setSearchResult([]);
+                          setIsShowMenu(false);
                         }}>
                         <img
                           src={phim.hinhAnh}
                           alt={phim.biDanh}
-                          className="w-16"
+                          className="md:w-16 w-9"
                         />
                         <p className="ms-2 text-[15px]">{phim.tenPhim}</p>
                       </a>
@@ -220,7 +211,10 @@ export const Header = () => {
           className="inline-flex items-center p-2 w-9 h-9 justify-center text-sm text-white rounded-lg lg:hidden border-white border"
           aria-controls="navbar-sticky"
           aria-expanded="false"
-          onClick={() => setIsShowMenu(!isshowMenu)}>
+          onClick={() => {
+            setIsShowMenu(!isshowMenu);
+            handleResetInput();
+          }}>
           <span className="sr-only">Open main menu</span>
           <svg
             className="w-5 h-5"
