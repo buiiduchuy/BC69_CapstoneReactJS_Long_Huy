@@ -1,4 +1,4 @@
-import { BackTop } from "antd";
+import { FloatButton } from "antd";
 
 export const Footer = () => {
   return (
@@ -30,7 +30,7 @@ export const Footer = () => {
               Dmitry Volkov
             </a>
           </span>
-          <BackTop className="border border-orange-400 overflow-hidden bg-black bottom-7" />
+          <FloatButton.BackTop className="border border-orange-400 overflow-hidden bg-black bottom-7" />
         </div>
       </div>
     </footer>

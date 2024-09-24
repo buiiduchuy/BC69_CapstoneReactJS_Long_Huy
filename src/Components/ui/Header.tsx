@@ -44,7 +44,7 @@ export const Header = () => {
   };
 
   const handleResetInput = () => {
-    if (inputRef.current != null) {
+    if (inputRef.current) {
       inputRef.current.value = "";
     }
     setSearchResult([]);
@@ -142,7 +142,7 @@ export const Header = () => {
                             id: phim.maPhim,
                           });
                           navigate(path);
-                          setSearchResult([]);
+                          handleResetInput();
                           setIsShowMenu(false);
                         }}>
                         <img

@@ -18,3 +18,9 @@ export type PhimTable = {
   tenPhim: string;
   hinhAnh: string;
 };
+export type Banner = {
+  [x: string]: any;
+  maBanner: number;
+  maPhim: number;
+  hinhAnh: string;
+};

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import cn from "classnames";
 
 type Props = {
-  total: number;
+  total: number | undefined;
   current: number;
   numberPost: number;
   setCurrent: Dispatch<SetStateAction<number>>;
@@ -15,8 +15,10 @@ export const Paginate = (props: Props) => {
   const numberPage = total && Math.ceil(total / numberPost);
 
   let listPage: number[] = [];
-  for (let i = 1; i <= numberPage; i++) {
-    listPage.push(i);
+  if (numberPage) {
+    for (let i = 1; i <= numberPage; i++) {
+      listPage.push(i);
+    }
   }
 
   return (
