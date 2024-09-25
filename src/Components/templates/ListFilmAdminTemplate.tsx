@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Switch } from "antd";
+import { Button, Input, Modal, Switch, Upload } from "antd";
 import { quanLyPhimServices } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
@@ -9,7 +9,6 @@ import { Paginate } from "../ui/Paginate";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { phimSchema, phimSchemaType } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { any } from "zod";
 
 export const ListFilmAdminTemplate = () => {
   // lấy danh sách phim
@@ -45,7 +44,6 @@ export const ListFilmAdminTemplate = () => {
   const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
 
 
-  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const {
     handleSubmit,
@@ -70,8 +68,16 @@ export const ListFilmAdminTemplate = () => {
     console.log("data: ", data);
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-      if( value === undefined ) formData.append(key, !!value);
-      else formData.append(key, value)
+
+      if( value === undefined ) {
+        formData.append(key, !!value);
+        continue;
+      }
+      if( key === 'hinhAnh' ) {
+        formData.append(key, value.file);
+      }
+
+      formData.append(key, value)
     }
     try {
       const response = await axios.post(
@@ -216,7 +222,11 @@ export const ListFilmAdminTemplate = () => {
               <p>Hình ảnh</p>
               <Controller
                 control={control}
-                render={({ field }) => <Input {...field} type="file" placeholder="Hình ảnh" accept="image/jpg" />}
+                render={({ field }) => (
+                  <Upload {...field} beforeUpload={() => false} accept="image/jpg">
+                    Upload hình
+                  </Upload>
+                )}
                 name="hinhAnh"
               />
               {errors?.hinhAnh?.message && <p className="text-red-500">{errors?.hinhAnh?.message}</p>}

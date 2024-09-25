@@ -6,7 +6,7 @@ export const phimSchema = z.object({
   tenPhim: z.string({ message: "Vui lòng nhập tên phim" }),
   biDanh: z.string({ message: "Vui lòng nhập bí danh" }).optional(),
   trailer: z.string({ message: "Vui lòng nhập trailer" }).optional(),
-  hinhAnh: z.any().optional(),
+  hinhAnh: z.any({message: 'Vui lòng nhập hình ảnh'}).optional(),
   moTa: z.string({ message: "Vui lòng nhập mô tả" }).optional(),
   maNhom: z.string({ message: "Vui lòng nhập mã nhóm" }),
   ngayKhoiChieu: z.string({ message: "Vui lòng nhập ngày khởi chiếu" }).optional(),
