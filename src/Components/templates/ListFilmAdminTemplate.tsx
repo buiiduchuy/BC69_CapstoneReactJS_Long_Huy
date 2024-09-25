@@ -1,4 +1,4 @@
-import { Button, Input, Modal, Switch, Upload } from "antd";
+import { Button, DatePicker, DatePickerProps, Input, Modal, Switch, Upload } from "antd";
 import { quanLyPhimServices } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
@@ -9,8 +9,13 @@ import { Paginate } from "../ui/Paginate";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { phimSchema, phimSchemaType } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 export const ListFilmAdminTemplate = () => {
+
+  const navigate = useNavigate()
+
   // lấy danh sách phim
   const { data, refetch } = useQuery({
     queryKey: ["DanhSachPhim"],
@@ -54,6 +59,7 @@ export const ListFilmAdminTemplate = () => {
     resolver: zodResolver(phimSchema),
     defaultValues: {
       hinhAnh: undefined,
+      ngayKhoiChieu: null
     },
   });
 
@@ -96,13 +102,6 @@ export const ListFilmAdminTemplate = () => {
       console.log("error: ", error);
     }
   };
-
-  const onChange = (checked: boolean) => {
-    console.log(`switch to ${checked}`);
-    return checked;
-  };
-
-
 
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">
@@ -159,7 +158,11 @@ export const ListFilmAdminTemplate = () => {
                       >
                         Delete
                       </Button>
-                      <Button type="primary" className="ms-2">
+                      <Button
+                        type="primary"
+                        className="ms-2"
+                        onClick={() => navigate(`/editphim?maPhim=${phim.maPhim}`)}
+                      >
                         Edit
                       </Button>
                     </td>
@@ -252,9 +255,16 @@ export const ListFilmAdminTemplate = () => {
             <div className="md:w-1/2 w-full mb-2 p-1">
               <p>Ngày khởi chiếu</p>
               <Controller
-                control={control}
-                render={({ field }) => <Input {...field} placeholder="Ngày khởi chiếu" />}
                 name="ngayKhoiChieu"
+                control={control}
+                render={({ field }) => (
+                  <DatePicker
+                    {...field}
+                    format="DD/MM/YYYY"
+                    value={field.value ? moment(field.value, 'DD/MM/YYYY') : null}
+                    onChange={(date) => field.onChange(date ? date.format("DD/MM/YYYY") : null)}
+                  />
+                )}
               />
               {errors?.ngayKhoiChieu?.message && <p className="text-red-500">{errors?.ngayKhoiChieu?.message}</p>}
             </div>
@@ -272,7 +282,7 @@ export const ListFilmAdminTemplate = () => {
                 <p>Hot</p>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => <Switch defaultValue={false} onChange={onChange} />}
+                  render={({ field }) => <Switch {...field} defaultValue={false} />}
                   name="hot"
                 />
                 {errors?.hot?.message && <p className="text-red-500">{errors?.hot?.message}</p>}
@@ -281,7 +291,7 @@ export const ListFilmAdminTemplate = () => {
                 <p>Đang chiếu</p>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => <Switch defaultValue={false} onChange={onChange} />}
+                  render={({ field }) => <Switch {...field} defaultValue={false} />}
                   name="dangChieu"
                 />
                 {errors?.dangChieu?.message && <p className="text-red-500">{errors?.dangChieu?.message}</p>}
@@ -290,7 +300,7 @@ export const ListFilmAdminTemplate = () => {
                 <p>Sắp chiếu</p>
                 <Controller
                   control={control}
-                  render={({ field: { onChange } }) => <Switch defaultValue={false} onChange={onChange} />}
+                  render={({ field }) => <Switch {...field} defaultValue={false} />}
                   name="sapChieu"
                 />
                 {errors?.sapChieu?.message && <p className="text-red-500">{errors?.sapChieu?.message}</p>}

@@ -9,7 +9,7 @@ export const phimSchema = z.object({
   hinhAnh: z.any({message: 'Vui lòng nhập hình ảnh'}).optional(),
   moTa: z.string({ message: "Vui lòng nhập mô tả" }).optional(),
   maNhom: z.string({ message: "Vui lòng nhập mã nhóm" }),
-  ngayKhoiChieu: z.string({ message: "Vui lòng nhập ngày khởi chiếu" }).optional(),
+  ngayKhoiChieu: z.string({ message: "Vui lòng nhập ngày khởi chiếu" }).nullable(),
   danhGia: z.string({message: 'Vui lòng nhập số sao'}).optional(),
   hot: z.boolean().optional(),
   dangChieu: z.boolean().optional(),
