@@ -1,9 +1,5 @@
 import { z } from "zod";
 
-const MAX_FILE_SIZE = 1024 * 1024 * 5;
-const ACCEPTED_IMAGE_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-const ACCEPTED_IMAGE_TYPES = ["jpeg", "jpg", "png", "webp"];
-
 // creating a schema for strings
 export const phimSchema = z.object({
   maPhim: z.string({ message: "Vui lòng nhập mã phim" }),
