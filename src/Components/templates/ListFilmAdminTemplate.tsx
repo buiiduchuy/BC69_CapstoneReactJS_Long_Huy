@@ -11,6 +11,7 @@ import { phimSchema, phimSchemaType } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { UploadOutlined } from "@ant-design/icons";
 
 export const ListFilmAdminTemplate = () => {
 
@@ -49,6 +50,11 @@ export const ListFilmAdminTemplate = () => {
   const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
 
 
+  const [fileList, setFileList] = useState([]);
+
+  const handleOnChangeUpload = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
 
   const {
     handleSubmit,
@@ -71,16 +77,16 @@ export const ListFilmAdminTemplate = () => {
 
 
   const onSubmitHandle: SubmitHandler<phimSchemaType> = async (data) => {
-    console.log("data: ", data);
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-
       if( value === undefined ) {
         formData.append(key, !!value);
         continue;
       }
       if( key === 'hinhAnh' ) {
-        formData.append(key, value.file);
+        const uploadedFiles = value.map((file) => file.originFileObj);
+        formData.append(key, uploadedFiles[0]);
+        continue
       }
 
       formData.append(key, value)
@@ -224,13 +230,23 @@ export const ListFilmAdminTemplate = () => {
             <div className="md:w-1/2 w-full mb-2 p-1">
               <p>Hình ảnh</p>
               <Controller
+                name="hinhAnh"
                 control={control}
-                render={({ field }) => (
-                  <Upload {...field} beforeUpload={() => false} accept="image/jpg">
-                    Upload hình
+                defaultValue={fileList}
+                render={({ field: { onChange } }) => (
+                  <Upload
+                    maxCount={1}
+                    listType="picture"
+                    fileList={fileList}
+                    onChange={(info) => {
+                      handleOnChangeUpload(info); // Cập nhật fileList trong state
+                      onChange(info.fileList); // Cập nhật giá trị trong React Hook Form
+                    }}
+                    beforeUpload={() => false} // Ngăn chặn việc tải lên ngay lập tức
+                  >
+                    <Button icon={<UploadOutlined />}>Tải tệp lên</Button>
                   </Upload>
                 )}
-                name="hinhAnh"
               />
               {errors?.hinhAnh?.message && <p className="text-red-500">{errors?.hinhAnh?.message}</p>}
             </div>
@@ -261,7 +277,7 @@ export const ListFilmAdminTemplate = () => {
                   <DatePicker
                     {...field}
                     format="DD/MM/YYYY"
-                    value={field.value ? moment(field.value, 'DD/MM/YYYY') : null}
+                    value={field.value ? moment(field.value, "DD/MM/YYYY") : null}
                     onChange={(date) => field.onChange(date ? date.format("DD/MM/YYYY") : null)}
                   />
                 )}
