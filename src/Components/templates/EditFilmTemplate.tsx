@@ -45,15 +45,15 @@ export const EditFilmTemplate = () => {
             <Input placeholder="Số sao" />
           </div>
           <div className="flex w-full flex-wrap">
-            <div className="w-1/2 mb-2 p-1">
+            <div className="w-1/2 md:w-1/6 mb-2 p-1">
               <p>Hot</p>
               <Switch />
             </div>
-            <div className="w-1/2 mb-2 p-1">
+            <div className="w-1/2 md:w-1/6 mb-2 p-1">
               <p>Đang chiếu</p>
               <Switch />
             </div>
-            <div className="w-1/2 mb-2 p-1">
+            <div className="w-1/2 md:w-1/6 mb-2 p-1">
               <p>Sắp chiếu</p>
               <Switch />
             </div>
