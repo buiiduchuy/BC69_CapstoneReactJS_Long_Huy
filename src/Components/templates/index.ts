@@ -6,3 +6,4 @@ export * from "./AboutUsTemplate";
 export * from "./CategoryTemplate";
 export * from "./ListFilmAdminTemplate";
 export * from "./ListUserTemplate";
+export * from "./EditFilmTemplate";

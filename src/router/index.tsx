@@ -12,6 +12,7 @@ import {
   ListUser,
 } from "../pages";
 import { AdminLayOut, AuthLayout, MainLayout } from "../Components";
+import { EditFilm } from "../pages/EditFilm";
 
 export const routers = () =>
   useRoutes([
@@ -63,6 +64,10 @@ export const routers = () =>
         {
           path: PATH.listUser,
           element: <ListUser />,
+        },
+        {
+          path: PATH.editFilm,
+          element: <EditFilm />,
         },
       ],
     },
