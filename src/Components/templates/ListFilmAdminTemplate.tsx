@@ -73,23 +73,22 @@ export const ListFilmAdminTemplate = () => {
       if( value === undefined ) formData.append(key, !!value);
       else formData.append(key, value)
     }
-    console.log("formData: ", typeof formData);
-    // try {
-    //   const response = await axios.post(
-    //     "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh",
-    //     formData,
-    //     {
-    //       headers: {
-    //         ...headers,
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     }
-    //   );
+    try {
+      const response = await axios.post(
+        "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh",
+        formData,
+        {
+          headers: {
+            ...headers,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    //   console.log("File upload response:", response.data);
-    // } catch (error) {
-    //   console.log("error: ", error);
-    // }
+      console.log("File upload response:", response.data);
+    } catch (error) {
+      console.log("error: ", error);
+    }
   };
 
   const onChange = (checked: boolean) => {
