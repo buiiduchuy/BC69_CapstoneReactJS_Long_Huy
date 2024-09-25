@@ -20,10 +20,9 @@ export const Paginate = (props: Props) => {
   }
 
   return (
-    <>
       <ul className="flex gap-2 paginate">
         {listPage.map((item) => (
-          <li>
+          <li key={item}>
             <Link
               to={"#"}
               className={cn(
@@ -40,6 +39,5 @@ export const Paginate = (props: Props) => {
           </li>
         ))}
       </ul>
-    </>
   );
 };
