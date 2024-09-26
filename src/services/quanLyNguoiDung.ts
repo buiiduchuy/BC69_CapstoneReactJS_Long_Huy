@@ -1,7 +1,11 @@
 // import axios from "axios";
 import { LoginSchemaType, RegisterSchemaType } from "../schemas";
 import { apiInstance } from "../constants";
-import { LoginAPIResponse, RegisterAPIResponese } from "../@types";
+import {
+  LoginAPIResponse,
+  RegisterAPIResponese,
+  TicketedAPIResponese,
+} from "../@types";
 
 const api = apiInstance.create({
   baseURL: "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung",
@@ -36,4 +40,8 @@ export const quanLyNguoiDungServices = {
   // },
   dangNhap: (payload: LoginSchemaType) =>
     api.post<HttpResponse<LoginAPIResponse>>("/DangNhap", payload),
+  layVeDaDat: (query = "") =>
+    api.post<HttpResponse<TicketedAPIResponese>>(
+      `/LayThongTinNguoiDung${query}`
+    ),
 };
