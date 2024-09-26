@@ -8,6 +8,7 @@ export const PATH = {
   admin: "/admin",
   listUser: "/danhsachnguoidung",
   editFilm: "editphim",
+  profile: "profile",
 };
 
 export const MANHOM = {

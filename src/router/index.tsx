@@ -13,6 +13,7 @@ import {
 } from "../pages";
 import { AdminLayOut, AuthLayout, MainLayout } from "../Components";
 import { EditFilm } from "../pages/EditFilm";
+import { Profile } from "../pages/Profile";
 
 export const routers = () =>
   useRoutes([
@@ -51,6 +52,10 @@ export const routers = () =>
         {
           path: PATH.contact,
           element: <Contact />,
+        },
+        {
+          path: PATH.profile,
+          element: <Profile />,
         },
       ],
     },

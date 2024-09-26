@@ -165,7 +165,13 @@ export const Header = () => {
                 <Popover
                   content={
                     <div className="flex flex-col p-[12px] gap-10">
-                      <Button type="text">Thông tin tài khoản</Button>
+                      <Button
+                        type="text"
+                        onClick={() => {
+                          navigate(PATH.profile);
+                        }}>
+                        Thông tin tài khoản
+                      </Button>
                       <div>
                         <Divider />
                       </div>

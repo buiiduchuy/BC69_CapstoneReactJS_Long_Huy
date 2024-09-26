@@ -7,3 +7,4 @@ export * from "./Category";
 export * from "./AboutUs";
 export * from "./ListFimlAdmin";
 export * from "./ListUser";
+export * from "./Profile";
