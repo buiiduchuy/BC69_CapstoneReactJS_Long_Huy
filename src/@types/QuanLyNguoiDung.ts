@@ -20,10 +20,10 @@ export type RegisterAPIResponese = {
 };
 
 export interface TicketedAPIResponese {
-  danhSachGhe: DanhSachGhe[];
+  danhSachGhe: DanhSachGheVe[];
 }
 
-export interface DanhSachGhe {
+export interface DanhSachGheVe {
   maHeThongRap: string;
   tenHeThongRap: string;
   maCumRap: string;
