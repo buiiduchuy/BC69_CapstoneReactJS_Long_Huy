@@ -1,7 +1,14 @@
 import { Button, Input, Modal } from "antd";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
 
 export const ListUserTemplate = () => {
+  const { user } = useQuanLyNguoiDungSelector();
+
+  const navigate = useNavigate();
+  if (!user) navigate("/login");
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {

@@ -173,7 +173,17 @@ export const Header = () => {
                         Thông tin tài khoản
                       </Button>
                       <div>
-                        <Divider />
+                        <Divider className="my-2" />
+                      </div>
+                      <Button
+                        type="text"
+                        onClick={() => {
+                          navigate(PATH.admin);
+                        }}>
+                        Trang quản Lý
+                      </Button>
+                      <div>
+                        <Divider className="my-2" />
                       </div>
                       <Button
                         className="w-full"

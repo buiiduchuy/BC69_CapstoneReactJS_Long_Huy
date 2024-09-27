@@ -1,8 +1,11 @@
 import { UserOutlined } from "@ant-design/icons";
 import { Avatar, Divider } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import cn from "classnames";
 import { Dispatch, SetStateAction } from "react";
+import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
+import { quanLyNguoiDungActions } from "../../store/quanLyNguoiDung";
+import { useAppDispatch } from "../../store";
 
 type Props = {
   activeSidebar: boolean;
@@ -10,7 +13,13 @@ type Props = {
 };
 
 export const SideBar = (props: Props) => {
+  const dispatch = useAppDispatch();
   const { activeSidebar, setActiveSidebar } = props;
+
+  const navigate = useNavigate();
+
+  const { user } = useQuanLyNguoiDungSelector();
+
   return (
     <div className="sidebar py-9 px-5 xl:ps-9 min-h-full flex flex-col border-r border-gray-500">
       <div
@@ -78,13 +87,17 @@ export const SideBar = (props: Props) => {
           className={cn("text-white me-5 xl:inline-block", {
             hidden: !activeSidebar,
           })}>
-          Hello hihi
+          {user?.hoTen}
         </p>
         <button
           className={cn(
             "inline-flex items-center justify-center w-[30px] h-[30px] rounded border border-orange-400 xl:inline-block"
           )}
-          type="button">
+          type="button"
+          onClick={() => {
+            dispatch(quanLyNguoiDungActions.logOut());
+            navigate("/");
+          }}>
           <i className="fa-solid fa-arrow-right-from-bracket text-white text-[12px]"></i>
         </button>
       </div>

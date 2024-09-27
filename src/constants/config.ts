@@ -7,8 +7,8 @@ export const PATH = {
   category: "/danhmuc",
   admin: "/admin",
   listUser: "/danhsachnguoidung",
-  editFilm: "editphim",
-  profile: "profile",
+  editFilm: "/editphim",
+  profile: "/profile",
 };
 
 export const MANHOM = {

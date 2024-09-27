@@ -13,6 +13,7 @@ import { Bounce, toast } from "react-toastify";
 import { useQuanLyDatVeSelector } from "../../store/quanLyDatVe/selector";
 import { useDispatch } from "react-redux";
 import { quanLyDatVeActions } from "../../store/quanLyDatVe";
+import ReactPlayer from "react-player/youtube";
 
 export const FilmDetailTemplate = () => {
   const { user } = useQuanLyNguoiDungSelector();
@@ -78,6 +79,7 @@ export const FilmDetailTemplate = () => {
       }, 200);
     }, 2000);
   };
+  console.log("first", data?.trailer);
 
   return (
     <>
@@ -110,16 +112,7 @@ export const FilmDetailTemplate = () => {
             </div>
           </div>
           <div className="text-white">
-            <iframe
-              width="100%"
-              height="366"
-              src={`https://www.youtube.com/embed/${
-                data?.trailer.split("=")[1]
-              }`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Embedded youtube"
-            />
+            <ReactPlayer url={data?.trailer} width="100%" height="100%" />
           </div>
         </div>
         <div>
