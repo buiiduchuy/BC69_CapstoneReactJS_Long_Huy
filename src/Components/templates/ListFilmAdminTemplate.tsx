@@ -25,10 +25,7 @@ import { Bounce, toast } from "react-toastify";
 import { Phim } from "../../@types";
 
 export const ListFilmAdminTemplate = () => {
-  const { user } = useQuanLyNguoiDungSelector();
-
   const navigate = useNavigate();
-  if (!user) navigate("/login");
 
   // lấy danh sách phim
   const { data, refetch } = useQuery({
@@ -157,17 +154,15 @@ export const ListFilmAdminTemplate = () => {
         </h2>
         <Button
           className="py-5 hover:!bg-orange-400 hover:!text-white hover:!border-white"
-          onClick={() => showModal()}>
+          onClick={() => showModal()}
+        >
           Thêm phim mới
         </Button>
       </div>
       <div className="mb-6">
-        <input
-          ref={inputSearchRef}
-          type="search"
+        <Input.Search
           placeholder="Tìm phim..."
-          className="w-full adminInputSearch p-2"
-          onChange={(e) => handleSearchAdmin(e)}
+          className="w-full adminInputSearch"
         />
       </div>
       <div className="overflow-x-auto">
@@ -182,125 +177,56 @@ export const ListFilmAdminTemplate = () => {
             </tr>
           </thead>
           <tbody>
-            {textSearch?.length
-              ? textSearch?.map((phim: Phim) => {
-                  return (
-                    <tr
-                      key={phim.maPhim}
-                      className="mb-2 xl:text-[16px] text-[12px]">
-                      <td className="py-3 px-2 text-center">{phim.maPhim}</td>
-                      <td className="py-3 px-2">{phim.tenPhim}</td>
-                      <td className="py-3 px-2">
-                        <img src={phim.hinhAnh} />
-                      </td>
-                      <td className="py-3 px-2">{`${phim.moTa.slice(
-                        0,
-                        200
-                      )}...`}</td>
-                      <td className="py-3 px-2 text-center">
-                        <Button
-                          danger
-                          onClick={async () => {
-                            console.log(phim.maPhim);
-                            try {
-                              await axios.delete(
-                                "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
-                                  phim.maPhim,
-                                {
-                                  headers,
-                                }
-                              );
-                              setTimeout(() => {
-                                toast("Xoá phim thành công !", {
-                                  position: "top-right",
-                                  autoClose: 2000,
-                                  hideProgressBar: false,
-                                  closeOnClick: true,
-                                  pauseOnHover: true,
-                                  draggable: true,
-                                  progress: undefined,
-                                  theme: "light",
-                                  transition: Bounce,
-                                });
-                              }, 200);
-                              refetch();
-                            } catch (error) {
-                              console.log("🚀 ~ onClick={ ~ error:", error);
-                            }
-                          }}>
-                          Delete
-                        </Button>
-                        <Button
-                          type="primary"
-                          className="ms-2"
-                          onClick={() =>
-                            navigate(`/editphim?maPhim=${phim.maPhim}`)
-                          }>
-                          Edit
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })
-              : listPost?.map((phim) => {
-                  return (
-                    <tr
-                      key={phim.maPhim}
-                      className="mb-2 xl:text-[16px] text-[12px]">
-                      <td className="py-3 px-2 text-center">{phim.maPhim}</td>
-                      <td className="py-3 px-2">{phim.tenPhim}</td>
-                      <td className="py-3 px-2">
-                        <img src={phim.hinhAnh} />
-                      </td>
-                      <td className="py-3 px-2">{`${phim.moTa.slice(
-                        0,
-                        200
-                      )}...`}</td>
-                      <td className="py-3 px-2 text-center">
-                        <Button
-                          danger
-                          onClick={async () => {
-                            console.log(phim.maPhim);
-                            try {
-                              await axios.delete(
-                                "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
-                                  phim.maPhim,
-                                {
-                                  headers,
-                                }
-                              );
-                              setTimeout(() => {
-                                toast("Xoá phim thành công !", {
-                                  position: "top-right",
-                                  autoClose: 2000,
-                                  hideProgressBar: false,
-                                  closeOnClick: true,
-                                  pauseOnHover: true,
-                                  draggable: true,
-                                  progress: undefined,
-                                  theme: "light",
-                                  transition: Bounce,
-                                });
-                              }, 200);
-                              refetch();
-                            } catch (error) {
-                              console.log("🚀 ~ onClick={ ~ error:", error);
-                            }
-                          }}>
-                          Delete
-                        </Button>
-                        <Button
-                          type="primary"
-                          className="ms-2"
-                          onClick={() =>
-                            navigate(`/editphim?maPhim=${phim.maPhim}`)
-                          }>
-                          Edit
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+            {listPost &&
+              listPost.map((phim) => {
+                return (
+                  <tr
+                    key={phim.maPhim}
+                    className="mb-2 xl:text-[16px] text-[12px]"
+                  >
+                    <td className="py-3 px-2 text-center">{phim.maPhim}</td>
+                    <td className="py-3 px-2">{phim.tenPhim}</td>
+                    <td className="py-3 px-2">
+                      <img src={phim.hinhAnh} />
+                    </td>
+                    <td className="py-3 px-2">{`${phim.moTa.slice(
+                      0,
+                      200
+                    )}...`}</td>
+                    <td className="py-3 px-2 text-center">
+                      <Button
+                        danger
+                        onClick={async () => {
+                          console.log(phim.maPhim);
+                          try {
+                            await axios.delete(
+                              "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=" +
+                                phim.maPhim,
+                              {
+                                headers,
+                              }
+                            );
+                            refetch();
+                          } catch (error) {
+                            console.log("🚀 ~ onClick={ ~ error:", error);
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        type="primary"
+                        className="ms-2"
+                        onClick={() =>
+                          navigate(`/editphim?maPhim=${phim.maPhim}`)
+                        }
+                      >
+                        Edit
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })}
           </tbody>
         </table>
       </div>
@@ -318,7 +244,8 @@ export const ListFilmAdminTemplate = () => {
         title={<h3 className="text-center text-[25px] mb-2">Thêm phim mới</h3>}
         open={isModalOpen}
         onOk={handleOk}
-        onCancel={handleCancel}>
+        onCancel={handleCancel}
+      >
         <form id="addFilmForm" onSubmit={handleSubmit(onSubmitHandle)}>
           <div className="flex flex-wrap">
             <div className="md:w-1/2 w-full mb-2 p-1">
@@ -510,7 +437,8 @@ export const ListFilmAdminTemplate = () => {
               id="submitForm"
               style={{
                 display: "none",
-              }}>
+              }}
+            >
               Thêm phim
             </Button>
           </div>

@@ -1,29 +1,33 @@
 import { Button, DatePicker, Input, Switch, Upload } from "antd";
-import { Controller, useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
-import { phimSchema, phimSchemaType } from "../../schemas";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { phimSchema, phimSchemaType, suaPhimSchemaType } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import moment from "moment";
-import { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
+import axios from "axios";
+import { token } from "../../constants";
+import { useEffect, useState } from "react";
+import { sleep } from "../../utils";
 
 export const EditFilmTemplate = () => {
+  const naviate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
   const maPhim = searchParams.get("maPhim");
-  console.log("maPhim: ", maPhim);
 
-
-  const [fileList, setFileList] = useState([])
-
-  const handleOnChangeUpload = ({fileList: newFileList}) => {
-    setFileList(newFileList)
-  }
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    TokenCybersoft:
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCA2OSIsIkhldEhhblN0cmluZyI6IjAxLzAyLzIwMjUiLCJIZXRIYW5UaW1lIjoiMTczODM2ODAwMDAwMCIsIm5iZiI6MTcxMDUyMjAwMCwiZXhwIjoxNzM4NTE1NjAwfQ.ap-iPzMpXDeCuXH0aJnbbSuR3vIW4upk1nOK3h9D-5g",
+  };
 
   const {
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<phimSchemaType>({
+    setValue,
+    watch,
+  } = useForm<suaPhimSchemaType>({
     mode: "onChange",
     resolver: zodResolver(phimSchema),
     defaultValues: {
@@ -31,7 +35,84 @@ export const EditFilmTemplate = () => {
       ngayKhoiChieu: null,
     },
   });
-  console.log("errors: ", errors);
+
+  const files = watch("hinhAnh");
+
+  useEffect(() => {
+    const currentPhim = async () => {
+      try {
+        const api = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`;
+        const response = await axios.get(api, { headers: headers });
+        const defaultData = response.data.content;
+        const fileList = [
+          {
+            uid: "-1", // cần uid để Upload nhận diện
+            name: "image.png", // tên file
+            status: "done", // trạng thái
+            url: defaultData.hinhAnh, // đường link hình ảnh
+          },
+        ];
+        setValue("maPhim", defaultData.maPhim);
+        setValue("tenPhim", defaultData.tenPhim);
+        setValue("biDanh", defaultData.biDanh);
+        setValue("trailer", defaultData.trailer);
+        setValue("hinhAnh", fileList);
+        setValue("moTa", defaultData.moTa);
+        setValue("maNhom", defaultData.maNhom);
+        setValue("ngayKhoiChieu", moment(defaultData.ngayKhoiChieu));
+        setValue("danhGia", defaultData.danhGia);
+        setValue("hot", defaultData.hot);
+        setValue("dangChieu", defaultData.dangChieu);
+        setValue("sapChieu", defaultData.sapChieu);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    currentPhim();
+  }, [setValue]);
+
+  const [fileList, setFileList] = useState([]);
+
+  const handleOnChangeUpload = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const onSubmitHandle: SubmitHandler<suaPhimSchemaType> = async (data) => {
+    console.log(
+      "🚀 ~ constonSubmitHandle:SubmitHandler<suaPhimSchemaType>= ~ data:",
+      data
+    );
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(data)) {
+      if (value === undefined) {
+        formData.append(key, !!value);
+        continue;
+      }
+      if (key === "hinhAnh") {
+        const uploadedFiles = value.map((file) => file.originFileObj);
+        formData.append(key, uploadedFiles[0]);
+        continue;
+      }
+
+      formData.append(key, value);
+    }
+    try {
+      const response = await axios.post(
+        "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload",
+        formData,
+        {
+          headers: {
+            ...headers,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("File upload response:", response.data);
+      naviate(-1);
+    } catch (error) {
+      console.log("error: ", error);
+    }
+  };
 
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">
@@ -41,11 +122,7 @@ export const EditFilmTemplate = () => {
       <form
         id="addFilmForm"
         className="bg-white md:px-5 md:py-8 p-3"
-        onSubmit={handleSubmit((values) => {
-          console.log("values: ", values);
-          const uploadedFiles = values.hinhAnh.map((file) => file.originFileObj);
-          console.log("uploadedFiles: ", uploadedFiles);
-        })}
+        onSubmit={handleSubmit(onSubmitHandle)}
       >
         <div className="flex flex-wrap">
           <div className="md:w-1/2 w-full mb-2 p-1">
@@ -53,18 +130,26 @@ export const EditFilmTemplate = () => {
             <Controller
               name="maPhim"
               control={control}
-              render={({ field }) => <Input {...field} placeholder="Mã phim" />}
+              render={({ field }) => (
+                <Input {...field} placeholder="Mã phim" disabled />
+              )}
             />
-            {errors?.maPhim?.message && <p className="text-red-500">{errors?.maPhim?.message}</p>}
+            {errors?.maPhim?.message && (
+              <p className="text-red-500">{errors?.maPhim?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Tên phim</p>
             <Controller
               name="tenPhim"
               control={control}
-              render={({ field }) => <Input {...field} placeholder="Tên phim" />}
+              render={({ field }) => (
+                <Input {...field} placeholder="Tên phim" />
+              )}
             />
-            {errors?.tenPhim?.message && <p className="text-red-500">{errors?.tenPhim?.message}</p>}
+            {errors?.tenPhim?.message && (
+              <p className="text-red-500">{errors?.tenPhim?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Bí danh</p>
@@ -73,7 +158,9 @@ export const EditFilmTemplate = () => {
               control={control}
               render={({ field }) => <Input {...field} placeholder="Bí danh" />}
             />
-            {errors?.biDanh?.message && <p className="text-red-500">{errors?.biDanh?.message}</p>}
+            {errors?.biDanh?.message && (
+              <p className="text-red-500">{errors?.biDanh?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Trailer</p>
@@ -82,7 +169,9 @@ export const EditFilmTemplate = () => {
               control={control}
               render={({ field }) => <Input {...field} placeholder="Trailer" />}
             />
-            {errors?.trailer?.message && <p className="text-red-500">{errors?.trailer?.message}</p>}
+            {errors?.trailer?.message && (
+              <p className="text-red-500">{errors?.trailer?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Hình ảnh</p>
@@ -94,7 +183,7 @@ export const EditFilmTemplate = () => {
                 <Upload
                   maxCount={1}
                   listType="picture"
-                  fileList={fileList}
+                  fileList={files}
                   onChange={(info) => {
                     handleOnChangeUpload(info); // Cập nhật fileList trong state
                     onChange(info.fileList); // Cập nhật giá trị trong React Hook Form
@@ -105,7 +194,9 @@ export const EditFilmTemplate = () => {
                 </Upload>
               )}
             />
-            {errors?.hinhAnh?.message && <p className="text-red-500">{errors?.hinhAnh?.message}</p>}
+            {errors?.hinhAnh?.message && (
+              <p className="text-red-500">{errors?.hinhAnh?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Mô tả</p>
@@ -114,7 +205,9 @@ export const EditFilmTemplate = () => {
               control={control}
               render={({ field }) => <Input {...field} placeholder="Mô tả" />}
             />
-            {errors?.moTa?.message && <p className="text-red-500">{errors?.moTa?.message}</p>}
+            {errors?.moTa?.message && (
+              <p className="text-red-500">{errors?.moTa?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Mã nhóm</p>
@@ -123,7 +216,9 @@ export const EditFilmTemplate = () => {
               control={control}
               render={({ field }) => <Input {...field} placeholder="Mã nhóm" />}
             />
-            {errors?.maNhom?.message && <p className="text-red-500">{errors?.maNhom?.message}</p>}
+            {errors?.maNhom?.message && (
+              <p className="text-red-500">{errors?.maNhom?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Ngày khởi chiếu</p>
@@ -135,20 +230,34 @@ export const EditFilmTemplate = () => {
                   {...field}
                   format="DD/MM/YYYY"
                   value={field.value ? moment(field.value, "DD/MM/YYYY") : null}
-                  onChange={(date) => field.onChange(date ? date.format("DD/MM/YYYY") : null)}
+                  onChange={(date) =>
+                    field.onChange(date ? date.format("DD/MM/YYYY") : null)
+                  }
                 />
               )}
             />
-            {errors?.ngayKhoiChieu?.message && <p className="text-red-500">{errors?.ngayKhoiChieu?.message}</p>}
+            {errors?.ngayKhoiChieu?.message && (
+              <p className="text-red-500">{errors?.ngayKhoiChieu?.message}</p>
+            )}
           </div>
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Đánh giá</p>
             <Controller
               name="danhGia"
               control={control}
-              render={({ field }) => <Input {...field} type="number" min={0} max={5} placeholder="Số sao" />}
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  type="number"
+                  min={0}
+                  max={5}
+                  placeholder="Số sao"
+                />
+              )}
             />
-            {errors?.danhGia?.message && <p className="text-red-500">{errors?.danhGia?.message}</p>}
+            {errors?.danhGia?.message && (
+              <p className="text-red-500">{errors?.danhGia?.message}</p>
+            )}
           </div>
           <div className="flex w-full flex-wrap">
             <div className="w-1/2 md:w-1/6 mb-2 p-1">
@@ -156,27 +265,39 @@ export const EditFilmTemplate = () => {
               <Controller
                 name="hot"
                 control={control}
-                render={({ field }) => <Switch {...field} defaultValue={false} />}
+                render={({ field }) => (
+                  <Switch {...field} defaultValue={false} />
+                )}
               />
-              {errors?.hot?.message && <p className="text-red-500">{errors?.hot?.message}</p>}
+              {errors?.hot?.message && (
+                <p className="text-red-500">{errors?.hot?.message}</p>
+              )}
             </div>
             <div className="w-1/2 md:w-1/6 mb-2 p-1">
               <p>Đang chiếu</p>
               <Controller
                 name="dangChieu"
                 control={control}
-                render={({ field }) => <Switch {...field} defaultValue={false} />}
+                render={({ field }) => (
+                  <Switch {...field} defaultValue={false} />
+                )}
               />
-              {errors?.dangChieu?.message && <p className="text-red-500">{errors?.dangChieu?.message}</p>}
+              {errors?.dangChieu?.message && (
+                <p className="text-red-500">{errors?.dangChieu?.message}</p>
+              )}
             </div>
             <div className="w-1/2 md:w-1/6 mb-2 p-1">
               <p>Sắp chiếu</p>
               <Controller
                 name="sapChieu"
                 control={control}
-                render={({ field }) => <Switch {...field} defaultValue={false} />}
+                render={({ field }) => (
+                  <Switch {...field} defaultValue={false} />
+                )}
               />
-              {errors?.sapChieu?.message && <p className="text-red-500">{errors?.sapChieu?.message}</p>}
+              {errors?.sapChieu?.message && (
+                <p className="text-red-500">{errors?.sapChieu?.message}</p>
+              )}
             </div>
           </div>
         </div>
@@ -184,7 +305,12 @@ export const EditFilmTemplate = () => {
           <Button type="dashed" danger size="large">
             Huỷ
           </Button>
-          <Button type="primary" size="large" className="ms-3" htmlType="submit">
+          <Button
+            type="primary"
+            size="large"
+            className="ms-3"
+            htmlType="submit"
+          >
             Cập nhật
           </Button>
         </div>
