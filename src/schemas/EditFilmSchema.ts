@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 // creating a schema for strings
-export const phimSchema = z.object({
-  maPhim: z.string({ message: "Vui lòng nhập mã phim" }),
+export const suaPhimSchema = z.object({
+  maPhim: z.string({ message: "Vui lòng nhập tên phim" }).optional(),
   tenPhim: z.string({ message: "Vui lòng nhập tên phim" }),
   biDanh: z.string({ message: "Vui lòng nhập bí danh" }).optional(),
   trailer: z.string({ message: "Vui lòng nhập trailer" }).optional(),
@@ -20,4 +20,4 @@ export const phimSchema = z.object({
   sapChieu: z.boolean().optional(),
 });
 
-export type phimSchemaType = z.infer<typeof phimSchema>;
+export type suaPhimSchemaType = z.infer<typeof suaPhimSchema>;

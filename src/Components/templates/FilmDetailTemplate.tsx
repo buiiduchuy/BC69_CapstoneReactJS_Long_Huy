@@ -28,6 +28,7 @@ export const FilmDetailTemplate = () => {
   const { id = "" } = useParams();
 
   const { data } = useFilmDetailById({ id });
+  console.log("🚀 ~ FilmDetailTemplate ~ data:", data);
 
   const { data: Showtimes } = useGetShowtimeById({ id });
 
@@ -157,7 +158,8 @@ export const FilmDetailTemplate = () => {
                               onClick={() => {
                                 setIsOpenModal(true);
                                 setMaLichChieu(lichChieu.maLichChieu);
-                              }}>
+                              }}
+                            >
                               {dayjs(lichChieu.ngayChieuGioChieu).format(
                                 "DD-MM-YYYY , HH:mm"
                               )}{" "}
@@ -173,7 +175,8 @@ export const FilmDetailTemplate = () => {
                   />
                 </div>
               ),
-            }))}></Tabs>
+            }))}
+          ></Tabs>
         </div>
 
         {/* modal đặt vé */}
@@ -190,7 +193,8 @@ export const FilmDetailTemplate = () => {
           okText="Đặt vé"
           cancelText="Huỷ"
           width={800}
-          loading={!loading}>
+          loading={!loading}
+        >
           <h2 className="text-center text-[30px] font-semibold">Đặt vé</h2>
           <div className="grid md:grid-cols-12 grid-cols-6 gap-[10px] mt-20">
             {danhSachPhongVe?.data.content.danhSachGhe?.map((ghe) => (
@@ -220,7 +224,8 @@ export const FilmDetailTemplate = () => {
           onOk={handleComplete}
           confirmLoading={confirmLoading}
           okText="Hoàn thành"
-          cancelButtonProps={{ style: { display: "none" } }}>
+          cancelButtonProps={{ style: { display: "none" } }}
+        >
           <h2 className="text-center text-[30px] font-semibold mb-9">
             Thông tin vé đã đặt
           </h2>
