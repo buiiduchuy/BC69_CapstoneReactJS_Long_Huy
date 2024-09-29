@@ -1,7 +1,12 @@
 import { Button, Input, Modal } from "antd";
-import { useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuanLyNguoiDungSelector } from "../../store/quanLyNguoiDung/selector";
+import { quanLyNguoiDungServices } from "../../services";
+import { sleep } from "../../utils";
+import { useQuery } from "@tanstack/react-query";
+import { InfoUserType } from "../../@types";
+import { Paginate } from "../ui/Paginate";
 
 export const ListUserTemplate = () => {
   const { user } = useQuanLyNguoiDungSelector();
@@ -23,6 +28,40 @@ export const ListUserTemplate = () => {
     setIsModalOpen(false);
   };
 
+  // lấy danh sách phim
+  const { data } = useQuery({
+    queryKey: ["DanhSachNguoiDung"],
+    queryFn: async () => {
+      await sleep(1000);
+      return quanLyNguoiDungServices.danhSachNguoiDung("MaNhom=GP03");
+    },
+    enabled: true,
+  });
+
+  const [textSearch, setTextSearch] = useState<InfoUserType[] | undefined>([]);
+
+  const inputSearchRef = useRef<HTMLInputElement | null>(null);
+
+  const handleSearchAdmin = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (value.length === 0) {
+      setTextSearch([]);
+      return;
+    }
+    const userSearch = data?.data.content.filter((item: InfoUserType) =>
+      item.taiKhoan.toLowerCase().trim().includes(value.toLowerCase().trim())
+    );
+    setTextSearch(userSearch);
+  };
+
+  // paginate
+  const totalPost = data?.data.content.length;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postPerPage] = useState(10);
+  const indexFirstPost = currentPage * postPerPage - postPerPage;
+  const lastIndexPost = indexFirstPost + postPerPage;
+  const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
+
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">
       <div className="flex flex-wrap justify-between md:mb-12 mb-5">
@@ -36,54 +75,113 @@ export const ListUserTemplate = () => {
         </Button>
       </div>
       <div className="mb-6">
-        <Input.Search
-          placeholder="Tìm người dùng..."
-          className="w-full adminInputSearch"
+        <input
+          ref={inputSearchRef}
+          type="search"
+          placeholder="Tìm kiếm người dùng..."
+          className="w-full adminInputSearch p-2"
+          onChange={(e) => handleSearchAdmin(e)}
         />
       </div>
-      <table className="w-full text-white">
-        <thead>
-          <tr className="xl:text-[16px] text-[12px]">
-            <th className="py-3 px-2">TÀI KHOẢN</th>
-            <th className="py-3 px-2">TÊN NGƯỜI DÙNG</th>
-            <th className="py-3 px-2">EMAIL</th>
-            <th className="py-3 px-2">SỐ ĐIỆN THOẠI</th>
-            <th className="py-3 px-2">LOẠI NGƯỜI DÙNG</th>
-            <th className="py-3 px-2">HÀNH ĐỘNG</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr className="bg-gray-700 mb-2 xl:text-[16px] text-[12px]">
-            <td>
-              <div className="py-3 px-2 text-center">admin123</div>
-            </td>
-            <td>
-              <div className="py-3 px-2">Hehehe</div>
-            </td>
-            <td>
-              <div className="py-3 px-2">abc@gmail.com</div>
-            </td>
-            <td>
-              <div className="py-3 px-2">0987654321</div>
-            </td>
-            <td>
-              <div className="py-3 px-2 text-center">Quản trị</div>
-            </td>
-            <td>
-              <div className="catalog__btns text-center">
-                <Button
-                  className="catalog__btn--banned me-2
+      <div className="overflow-x-auto">
+        <table className="table-auto border-collapse border text-white bg-gray-700">
+          <thead>
+            <tr className="xl:text-[16px] text-[12px]">
+              <th className="py-3 px-2">TÀI KHOẢN</th>
+              <th className="py-3 px-2">TÊN NGƯỜI DÙNG</th>
+              <th className="py-3 px-2">EMAIL</th>
+              <th className="py-3 px-2">SỐ ĐIỆN THOẠI</th>
+              <th className="py-3 px-2">LOẠI NGƯỜI DÙNG</th>
+              {/* <th className="py-3 px-2">HÀNH ĐỘNG</th> */}
+            </tr>
+          </thead>
+          <tbody>
+            {textSearch?.length
+              ? textSearch?.map((user: InfoUserType) => (
+                  <tr
+                    className="bg-gray-700 mb-2 xl:text-[16px] text-[12px]"
+                    key={user.taiKhoan}>
+                    <td>
+                      <div className="py-3 px-2 text-center">
+                        {user.taiKhoan}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.hoTen}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.email}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.soDT}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2 text-center">
+                        {user.maLoaiNguoiDung}
+                      </div>
+                    </td>
+                    {/* <td>
+                <div className="catalog__btns text-center">
+                  <Button
+                    className="catalog__btn--banned me-2
                 ">
-                  <i className="fa-solid fa-pen"></i>
-                </Button>
-                <Button className="catalog__btn--delete">
-                  <i className="fa-solid fa-trash"></i>
-                </Button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+                    <i className="fa-solid fa-pen"></i>
+                  </Button>
+                  <Button className="catalog__btn--delete">
+                    <i className="fa-solid fa-trash"></i>
+                  </Button>
+                </div>
+              </td> */}
+                  </tr>
+                ))
+              : listPost?.map((user: InfoUserType) => (
+                  <tr
+                    className="bg-gray-700 mb-2 xl:text-[16px] text-[12px]"
+                    key={user.taiKhoan}>
+                    <td>
+                      <div className="py-3 px-2 text-center">
+                        {user.taiKhoan}
+                      </div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.hoTen}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.email}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2">{user.soDT}</div>
+                    </td>
+                    <td>
+                      <div className="py-3 px-2 text-center">
+                        {user.maLoaiNguoiDung}
+                      </div>
+                    </td>
+                    {/* <td>
+                <div className="catalog__btns text-center">
+                  <Button
+                    className="catalog__btn--banned me-2
+                ">
+                    <i className="fa-solid fa-pen"></i>
+                  </Button>
+                  <Button className="catalog__btn--delete">
+                    <i className="fa-solid fa-trash"></i>
+                  </Button>
+                </div>
+              </td> */}
+                  </tr>
+                ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="mb-5 mt-9">
+        <Paginate
+          total={totalPost}
+          current={currentPage}
+          setCurrent={setCurrentPage}
+          numberPost={postPerPage}
+        />
+      </div>
       <Modal
         title={<h3 className="text-center text-[25px] mb-2">Thêm phim mới</h3>}
         open={isModalOpen}

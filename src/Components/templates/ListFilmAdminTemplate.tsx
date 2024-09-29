@@ -147,7 +147,6 @@ export const ListFilmAdminTemplate = () => {
     );
     setTextSearch(phimSearch);
   };
-  console.log("textSearch: ", !!textSearch);
 
   return (
     <div className="sm:p-9 p-6 min-h-screen flex flex-col">

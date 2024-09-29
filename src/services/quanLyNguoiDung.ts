@@ -2,9 +2,9 @@
 import { LoginSchemaType, RegisterSchemaType } from "../schemas";
 import { apiInstance } from "../constants";
 import {
+  InfoUserType,
   LoginAPIResponse,
   RegisterAPIResponese,
-  TicketedAPIResponese,
 } from "../@types";
 
 const api = apiInstance.create({
@@ -40,8 +40,6 @@ export const quanLyNguoiDungServices = {
   // },
   dangNhap: (payload: LoginSchemaType) =>
     api.post<HttpResponse<LoginAPIResponse>>("/DangNhap", payload),
-  layVeDaDat: (query = "") =>
-    api.post<HttpResponse<TicketedAPIResponese>>(
-      `/LayThongTinNguoiDung${query}`
-    ),
+  danhSachNguoiDung: (query = "") =>
+    api.get<HttpResponse<InfoUserType>>(`/LayDanhSachNguoiDung?${query}`),
 };
