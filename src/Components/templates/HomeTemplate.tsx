@@ -23,6 +23,7 @@ export const HomeTemplate = () => {
     },
     enabled: true,
   });
+  console.log("data: ", data);
 
   const settings = {
     dots: false,

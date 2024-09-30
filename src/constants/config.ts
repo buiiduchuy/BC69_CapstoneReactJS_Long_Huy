@@ -12,5 +12,5 @@ export const PATH = {
 };
 
 export const MANHOM = {
-  manhom: "maNhom=GP03",
+  manhom: "maNhom=GP01",
 };
