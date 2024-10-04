@@ -1,12 +1,4 @@
-import {
-  Button,
-  DatePicker,
-  DatePickerProps,
-  Input,
-  Modal,
-  Switch,
-  Upload,
-} from "antd";
+import { Button, DatePicker, Input, Modal, Switch, Upload } from "antd";
 import { quanLyPhimServices } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
@@ -90,17 +82,23 @@ export const ListFilmAdminTemplate = () => {
   const onSubmitHandle: SubmitHandler<phimSchemaType> = async (data) => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
+      console.log("value: ", value);
       if (value === undefined) {
-        formData.append(key, !!value);
+        // formData.append(key, !!value);
+        formData.append(key, "false");
         continue;
       }
-      if (key === "hinhAnh") {
-        const uploadedFiles = value.map((file) => file.originFileObj);
-        formData.append(key, uploadedFiles[0]);
-        continue;
-      }
+      if (value) {
+        if (key === "hinhAnh") {
+          const uploadedFiles = value.map(
+            (file: { originFileObj: any }) => file.originFileObj
+          );
+          formData.append(key, uploadedFiles[0]);
+          continue;
+        }
 
-      formData.append(key, value);
+        formData.append(key, value);
+      }
     }
     try {
       const response = await axios.post(
@@ -377,7 +375,7 @@ export const ListFilmAdminTemplate = () => {
               <Controller
                 name="hinhAnh"
                 control={control}
-                defaultValue={fileList}
+                // defaultValue={fileList}
                 render={({ field: { onChange } }) => (
                   <Upload
                     maxCount={1}
