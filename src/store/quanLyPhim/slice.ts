@@ -21,16 +21,16 @@ export const { reducer: quanLyPhimReducer, actions: quanLyPhimActions } =
 
     extraReducers(builder) {
       builder
-        .addCase(edit.pending, (state) => {
+        .addCase(edit.pending, () => {
           console.log("pending");
         })
-        .addCase(edit.fulfilled, (state, action) => {
-          const { payload } = action;
-          console.log("payload: ", payload);
-          console.log("fullfieled");
+        .addCase(edit.fulfilled, () => {
+          // const { payload } = action;
+          // console.log("payload: ", payload);
+          // console.log("fullfieled");
           // state.phimEdit = payload;
         })
-        .addCase(edit.rejected, (state) => {
+        .addCase(edit.rejected, () => {
           console.log("rejected");
         });
     },

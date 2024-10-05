@@ -16,7 +16,7 @@ type initialState = {
 
 const initialState = {
   isLoadingRegister: false,
-  userRegister: undefined,
+  userRegister: {},
   user: storage(localStorageKey.USER),
   // listSeat: [],
 };

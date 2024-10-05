@@ -1,14 +1,14 @@
 import { Button, DatePicker, Input, Switch, Upload } from "antd";
+import { UploadFile } from "antd/es/upload/interface";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { phimSchema, phimSchemaType, suaPhimSchemaType } from "../../schemas";
+import { phimSchema, suaPhimSchemaType } from "../../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import moment from "moment";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { token } from "../../constants";
 import { useEffect, useState } from "react";
-import { sleep } from "../../utils";
 
 export const EditFilmTemplate = () => {
   const naviate = useNavigate();
@@ -38,13 +38,25 @@ export const EditFilmTemplate = () => {
 
   const files = watch("hinhAnh");
 
+  function convertUploadFileToFileList(uploadFiles: UploadFile[]): FileList {
+    const dataTransfer = new DataTransfer();
+
+    uploadFiles.forEach((uploadFile) => {
+      if (uploadFile.originFileObj) {
+        dataTransfer.items.add(uploadFile.originFileObj as File);
+      }
+    });
+
+    return dataTransfer.files;
+  }
+
   useEffect(() => {
     const currentPhim = async () => {
       try {
         const api = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${maPhim}`;
         const response = await axios.get(api, { headers: headers });
         const defaultData = response.data.content;
-        const fileList = [
+        const fileList: UploadFile[] = [
           {
             uid: "-1", // cần uid để Upload nhận diện
             name: "image.png", // tên file
@@ -56,10 +68,16 @@ export const EditFilmTemplate = () => {
         setValue("tenPhim", defaultData.tenPhim);
         setValue("biDanh", defaultData.biDanh);
         setValue("trailer", defaultData.trailer);
-        setValue("hinhAnh", fileList);
+        setValue(
+          "hinhAnh",
+          convertUploadFileToFileList(fileList as UploadFile[])
+        );
         setValue("moTa", defaultData.moTa);
         setValue("maNhom", defaultData.maNhom);
-        setValue("ngayKhoiChieu", moment(defaultData.ngayKhoiChieu));
+        setValue(
+          "ngayKhoiChieu",
+          moment(defaultData.ngayKhoiChieu).format("DD-MM-YYYY")
+        );
         setValue("danhGia", defaultData.danhGia);
         setValue("hot", defaultData.hot);
         setValue("dangChieu", defaultData.dangChieu);
@@ -71,9 +89,14 @@ export const EditFilmTemplate = () => {
     currentPhim();
   }, [setValue]);
 
-  const [fileList, setFileList] = useState([]);
+  // const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleOnChangeUpload = ({ fileList: newFileList }) => {
+  const handleOnChangeUpload = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => {
     setFileList(newFileList);
   };
 
@@ -85,16 +108,22 @@ export const EditFilmTemplate = () => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
       if (value === undefined) {
-        formData.append(key, !!value);
+        formData.append(key, "false");
         continue;
       }
-      if (key === "hinhAnh") {
+      if (key === "hinhAnh" && Array.isArray(value)) {
         const uploadedFiles = value.map((file) => file.originFileObj);
         formData.append(key, uploadedFiles[0]);
         continue;
       }
 
-      formData.append(key, value);
+      // formData.append(key, value);
+      if (typeof value === "boolean") {
+        formData.append(key, value ? "true" : "false");
+      } else {
+        // Trường hợp khác, giá trị là string hoặc các kiểu hợp lệ khác
+        formData.append(key, value as string);
+      }
     }
     try {
       const response = await axios.post(
@@ -122,8 +151,7 @@ export const EditFilmTemplate = () => {
       <form
         id="addFilmForm"
         className="bg-white md:px-5 md:py-8 p-3"
-        onSubmit={handleSubmit(onSubmitHandle)}
-      >
+        onSubmit={handleSubmit(onSubmitHandle)}>
         <div className="flex flex-wrap">
           <div className="md:w-1/2 w-full mb-2 p-1">
             <p>Mã phim</p>
@@ -178,12 +206,14 @@ export const EditFilmTemplate = () => {
             <Controller
               name="hinhAnh"
               control={control}
-              defaultValue={fileList}
-              render={({ field: { onChange } }) => (
+              defaultValue={convertUploadFileToFileList(
+                fileList as UploadFile[]
+              )}
+              render={({ field: { onChange, value } }) => (
                 <Upload
                   maxCount={1}
                   listType="picture"
-                  fileList={files}
+                  fileList={Array.isArray(value) ? value : fileList}
                   onChange={(info) => {
                     handleOnChangeUpload(info); // Cập nhật fileList trong state
                     onChange(info.fileList); // Cập nhật giá trị trong React Hook Form
@@ -309,8 +339,7 @@ export const EditFilmTemplate = () => {
             type="primary"
             size="large"
             className="ms-3"
-            htmlType="submit"
-          >
+            htmlType="submit">
             Cập nhật
           </Button>
         </div>

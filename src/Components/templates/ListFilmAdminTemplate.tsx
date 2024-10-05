@@ -1,4 +1,5 @@
 import { Button, DatePicker, Input, Modal, Switch, Upload } from "antd";
+import { UploadFile } from "antd/es/upload/interface";
 import { quanLyPhimServices } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import { sleep } from "../../utils";
@@ -40,7 +41,10 @@ export const ListFilmAdminTemplate = () => {
   };
   const handleOk = () => {
     // setIsModalOpen(false);
-    document.getElementById("submitForm").click();
+    const inputSubmitForm = document.getElementById("submitForm");
+    if (inputSubmitForm) {
+      inputSubmitForm.click();
+    }
   };
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -54,9 +58,14 @@ export const ListFilmAdminTemplate = () => {
   const lastIndexPost = indexFirstPost + postPerPage;
   const listPost = data?.data.content.slice(indexFirstPost, lastIndexPost);
 
-  const [fileList, setFileList] = useState([]);
+  // const [fileList, setFileList] = useState([]);
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
 
-  const handleOnChangeUpload = ({ fileList: newFileList }) => {
+  const handleOnChangeUpload = ({
+    fileList: newFileList,
+  }: {
+    fileList: UploadFile[];
+  }) => {
     setFileList(newFileList);
   };
 
@@ -82,14 +91,13 @@ export const ListFilmAdminTemplate = () => {
   const onSubmitHandle: SubmitHandler<phimSchemaType> = async (data) => {
     const formData = new FormData();
     for (const [key, value] of Object.entries(data)) {
-      console.log("value: ", value);
       if (value === undefined) {
         // formData.append(key, !!value);
         formData.append(key, "false");
         continue;
       }
       if (value) {
-        if (key === "hinhAnh") {
+        if (key === "hinhAnh" && Array.isArray(value)) {
           const uploadedFiles = value.map(
             (file: { originFileObj: any }) => file.originFileObj
           );
@@ -97,7 +105,13 @@ export const ListFilmAdminTemplate = () => {
           continue;
         }
 
-        formData.append(key, value);
+        // formData.append(key, value);
+        if (typeof value === "boolean") {
+          formData.append(key, value ? "true" : "false");
+        } else {
+          // Trường hợp khác, giá trị là string hoặc các kiểu hợp lệ khác
+          formData.append(key, value as string);
+        }
       }
     }
     try {

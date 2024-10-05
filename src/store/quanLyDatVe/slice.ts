@@ -1,12 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DanhSachGhe } from "../../@types";
 
-type initialState = {
-  listSeat: DanhSachGhe;
+type InitialState = {
+  listSeat: DanhSachGhe[];
 };
 
-const initialState = {
+const initialState: InitialState = {
   listSeat: [],
 };
 
@@ -17,9 +16,9 @@ export const { reducer: quanLyDatVeReducer, actions: quanLyDatVeActions } =
 
     // xử lý action đồng bộ
     reducers: {
-      setListSeat: (state, { payload }) => {
+      setListSeat: (state, { payload }: PayloadAction<DanhSachGhe>) => {
         let index = state.listSeat.findIndex(
-          (item) => item?.maGhe === payload.maGhe
+          (item: DanhSachGhe) => item.maGhe === payload.maGhe
         );
         if (index === -1) {
           state.listSeat.push(payload);
@@ -27,7 +26,7 @@ export const { reducer: quanLyDatVeReducer, actions: quanLyDatVeActions } =
           state.listSeat.splice(index, 1);
         }
       },
-      setClearSeat: (state, { payload }) => {
+      setClearSeat: (state, { payload }: PayloadAction<DanhSachGhe[]>) => {
         state.listSeat = payload;
       },
     },

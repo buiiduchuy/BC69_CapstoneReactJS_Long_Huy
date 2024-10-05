@@ -26,10 +26,8 @@ export const GheComponent = (props: Props) => {
       })}
       onClick={() => {
         setIsActive(!isActive);
-        console.log("🚀 ~ GheComponent ~ ghe:", ghe);
         dispatch(quanLyDatVeActions.setListSeat(ghe));
-      }}
-    >
+      }}>
       {ghe.tenGhe}
     </Ghe>
   );
