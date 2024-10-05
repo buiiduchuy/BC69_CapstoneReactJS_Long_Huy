@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 
 export const EditFilmTemplate = () => {
   const naviate = useNavigate();
-  let [searchParams, setSearchParams] = useSearchParams();
+  let [searchParams] = useSearchParams();
   const maPhim = searchParams.get("maPhim");
 
   const headers = {
@@ -26,7 +26,7 @@ export const EditFilmTemplate = () => {
     control,
     formState: { errors },
     setValue,
-    watch,
+    // watch,
   } = useForm<suaPhimSchemaType>({
     mode: "onChange",
     resolver: zodResolver(phimSchema),
@@ -36,7 +36,7 @@ export const EditFilmTemplate = () => {
     },
   });
 
-  const files = watch("hinhAnh");
+  // const files = watch("hinhAnh");
 
   function convertUploadFileToFileList(uploadFiles: UploadFile[]): FileList {
     const dataTransfer = new DataTransfer();

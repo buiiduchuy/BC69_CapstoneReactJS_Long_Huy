@@ -115,7 +115,7 @@ export const ListFilmAdminTemplate = () => {
       }
     }
     try {
-      const response = await axios.post(
+      await axios.post(
         "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh",
         formData,
         {
